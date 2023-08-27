@@ -99,7 +99,7 @@
         ```
     ]
     #align(center + horizon)[
-        #only("3, 8", text(blue, $sans("*All Done*")$))
+        #only("3", text(blue, $sans("*All Done*")$))
         #only("5", text(red, 
             ```
             n != n + zero of type ℕ
