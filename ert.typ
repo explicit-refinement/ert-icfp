@@ -140,36 +140,39 @@
     #align(bottom + right, image("liquid-haskell.png", height: 30%))
 ]
 
+#focus-slide[
+    = Why _not_ refinement types?
+]
+
 #slide[
-    = So why _not_ refinement types?
-
-    #only("-3")[
-        == Quantifiers
-        #only("2-", $
+    = Quantifiers
+    #one-by-one[$
         ∀x, y. x ≤ y ==> f(x) ≤ f(y) "(Monotonicity)"
-        $)
-        #only("3-", $
+    $][$
         ∀x, y, z. R(x, y) ∧ R(y, z) ==> R(x, z) "(Transitivity)"
-        $)
-    ]
-    #only("4-")[
-        == Reliability
+    $][
+        = Multiplication
+    ][$
+        3x dot 5y = 2y dot 5x + 4x dot y + x dot y
+    $]
+]
 
-        #align(center, box(align(left, one-by-one(start: 5)[
-        ][
-            ```
-            (assert (forall ((a Int))
-                    (exists ((b Int))
-                    (= (* 2 b) a))))
-            ```
-        ][
-            ```
-            (check-sat)
-            ```
-        ][
-            #text(olive, `sat`)
-        ])))
-    ]
+#slide[
+    = Reliability
+    #align(center, box(align(left, one-by-one[
+    ][
+        ```
+        (assert (forall ((a Int))
+                (exists ((b Int))
+                (= (* 2 b) a))))
+        ```
+    ][
+        ```
+        (check-sat)
+        ```
+    ][
+        #text(olive, `sat`)
+    ])))
 ]
 
 #slide[
@@ -196,4 +199,151 @@
         only("6-", con[Big TCB]),
         only("7-", pro[Small TCB])
     ))
+]
+
+#focus-slide[
+    = ⚠ Disclaimer ⚠
+]
+
+#slide[
+    #only(1)[
+        ```haskell
+        -- the output length is the sum of the input lengths
+        append :: [a] -> [a] -> [a]
+        ```
+    ]
+    #only("2-7")[
+        ```haskell
+        append : ∀{m n: ℕ} -> Vec A m -> Vec A n -> Vec A (m + n)
+        ```
+    ]
+    #only("-4")[
+        ```haskell
+        append [] ys = ys
+        ```
+        ```haskell
+        append (x:xs) ys = x:(append xs ys)
+        ```
+    ]
+    #only("3-4")[
+        #v(1em)
+        ```haskell
+        Vec A n := { l : List A | len l = n }
+        ```
+    ]
+    #only("4")[
+        vs.
+        ```haskell
+        data Vec (A : Set a) : ℕ → Set a where
+        []  : Vec A zero
+        _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (suc n)
+        ```
+    ]
+    #only("5")[
+        ```haskell
+        append {0 n} {[], p} {ys, q} = {ys, (_: len ys = 0 + n)}
+        ```
+    ]
+    #only("6-7")[
+        ```haskell
+        append {0 n} {[], p} {ys, q} = {ys, 
+            trans[ len ys =(q) n =(β) 0 + n ]}
+        ```
+    ]
+    #only("5-6")[
+        ```haskell
+        append {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append xs ys in 
+                {x∷zs, (_: len (x∷zs) = (s m) + n)}
+        ```
+    ]
+    #only("7")[
+        ```haskell
+        append {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append xs ys in 
+                {x∷zs, trans[ len (x∷zs) 
+                    =(β) s(len zs) 
+                    =(r) s(n + m)
+                    =(β) s(n) + m]}
+        ```
+    ]
+]
+
+#polylux-slide(max-repetitions: 20)[
+    #only("-7, 11-")[
+        ```haskell
+        append : ∀{m n: ℕ} -> Vec a m -> Vec a n -> Vec a (n + m)
+        ```
+    ]
+    #only("1-5")[
+        ```haskell
+        append {0 n} {[], p} {ys, q} = {ys, (_: len ys = n + 0)}
+        ```
+    ]
+    #only("6-7, 11-")[
+        ```haskell
+        append {0 n} {[], p} {ys, q} = {ys, 
+            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}
+        ```
+    ]
+    #only("1-11")[
+        ```haskell
+        append {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append xs ys in 
+                {x∷zs, (_: len (x∷zs) = n + (s m))}
+        ```
+    ]
+    #only("12")[
+        ```haskell
+        append {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append xs ys in 
+                {x∷zs, trans[len(x∷zs
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ_left {n} {m}) n + (s m)]}
+        ```
+    ]
+    #only("2-")[
+        #v(1em)
+        ```haskell
+        zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+        ```
+    ]
+    #only("3-4")[
+        ```haskell
+        zero-right-id {0} = β
+        ```
+    ]
+    #only("4")[
+        ```haskell
+        zero-right-id {s n} = trans [
+            (s n) + 0 =(β) s (n + 0) =(zero-right-id {n}) (s n)
+        ]
+        ```
+    ]
+    #only("8-")[
+        ```haskell
+        succ-left : ∀{n m: ℕ} -> n + (s m) = s (n + m)
+        ```
+    ]
+    #only("9-10")[
+        ```haskell
+        succ-left {0} {m} = β
+        ```
+    ]
+    #only("10")[
+        ```haskell
+        succ-left {s n} {m} = trans[(s n) + (s m) 
+            =(β) s (n + (s m))
+            =(succ_left {n} {m}) s (s (n + m))
+            =(β) s ((s n) + m)]
+        ```
+    ]
+]
+
+#slide[
+    ```haskell
+    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+    succ-left : ∀{n m: ℕ} -> n + (s m) = s (n + m)
+    ```
 ]
