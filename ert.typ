@@ -323,20 +323,20 @@
     ]
     #only("8-")[
         ```haskell
-        succ-left : ∀{n m: ℕ} -> n + (s m) = s (n + m)
+        succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
         ```
     ]
     #only("9-10")[
         ```haskell
-        succ-left {0} {m} = β
+        succ-right {0} {n} = β
         ```
     ]
     #only("10")[
         ```haskell
-        succ-left {s n} {m} = trans[(s n) + (s m) 
-            =(β) s (n + (s m))
-            =(succ_left {n} {m}) s (s (n + m))
-            =(β) s ((s n) + m)]
+        succ-right {s m} {n} = trans[(s m) + (s n) 
+            =(β) s (m + (s n))
+            =(succ_left {m} {n}) s (s (m + n))
+            =(β) s ((s m) + n)]
         ```
     ]
 ]
@@ -344,6 +344,125 @@
 #slide[
     ```haskell
     zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-left : ∀{n m: ℕ} -> n + (s m) = s (n + m)
+    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
     ```
+    #only("2-")[
+    ```haskell
+    add-comm : ∀{m n: ℕ} -> m + n = n + m
+    ```
+    ]
+    #only("3-")[
+    ```haskell
+    add-comm m 0 = trans[m + 0 =(zero-right-id {m}) m =(β) 0 + m]
+    ```
+    ]
+    #only("4-")[
+    ```haskell
+    add-comm m (s n) = trans[m + (s n) 
+        =(succ-right {m n}) s (m + n) 
+        =(add-comm {m n}) s (n + m)
+        =(β) (s n) + m]
+    ```
+    ]
+]
+
+#slide[
+    ```haskell
+    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
+    add-comm : ∀{m n: ℕ} -> m + n = n + m
+    ```
+    #only("2-")[
+        ```haskell
+        _*_ : ℕ -> ℕ -> ℕ
+        0 * n = 0
+        (s m) * n = (m * n) + n
+        ```
+    ]
+    #only("3-")[
+        ```
+        mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
+        ```
+    ]
+    #only("4-")[
+        ```
+        mul-zero-right {0} = β
+        ```
+    ]
+    #only("5-")[
+        ```
+        mul-zero-right {s n} = trans[(s n) * 0
+            =(β) (n * 0) + 0 
+            =(mul-zero-right {n}) 0 + 0
+            =(β) 0]
+        ```
+    ]
+]
+
+#slide[
+    #only("-4")[
+    ```haskell
+    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
+    add-comm : ∀{m n: ℕ} -> m + n = n + m
+    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
+    ```
+    ]
+    #only("4-")[
+        ```haskell
+        add-assoc : ∀{m n l: ℕ} -> m + (n + l) = (m + n) + l
+        ```
+    ]
+    #only("2-4")[
+        ```
+        mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
+        ```
+    ]
+    #only("3")[
+        ```
+        mul-succ {0} {n} = β
+        ```
+    ]
+    #only("5-")[
+        ```
+        mul-succ {s m} {n} = trans[(s m) * (s n)
+            =(β) m * (s n) + (s n)
+            =(mul-succ {m} {n}) (m * n + m) + (s n)
+            =(add-assoc {m * n} {n} {s n}) m * n + (m + (s n))
+            =(succ-right {m} {n}) m * n + (s (m + n))
+            =(β) m * n + ((s m) + n)
+            =(add-comm {s m} {n})  m * n + (n + (s m))
+            =(add-assoc {m * n} {n} {s m}) (m * n + n) + (s m)
+            =(β) (s m) * n + (s m)
+        ```
+    ]
+]
+
+#slide[
+    ```haskell
+    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
+    add-comm : ∀{m n: ℕ} -> m + n = n + m
+    add-assoc: ∀{m n l: ℕ} -> (m + n) + l = m + (n + l)
+    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
+    mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
+    ```
+    #only("2-4")[
+        ```
+        mul-comm: ∀{m n: ℕ} -> m * n = n * m
+        ```
+    ]
+    #only("3-")[
+        ```
+        mul-comm {0} {n} = trans[0 * n 
+            =(β) 0 =(mul-zero-right {n}) n * 0]
+        ```
+    ]
+    #only("4-")[
+        ```
+        mul-comm {s m} {n} = trans[(s m) * n =(β) (m * n) + n 
+            =(mul-comm {m} {s n}) (n * m) + n
+            =(mul-succ {(s n)} {m}) n * (s m)]
+        ```
+    ]
 ]
