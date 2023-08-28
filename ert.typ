@@ -253,15 +253,18 @@
     #only("5-6")[
         ```haskell
         append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append xs ys in 
+            = let {zs, r} = append {xs, (_: len xs = m)} {ys, q} in 
                 {x∷zs, (_: len (x∷zs) = (s m) + n)}
         ```
     ]
     #only("7")[
         ```haskell
         append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append xs ys in 
-                {x∷zs, trans[ len (x∷zs) 
+            = let {zs, r} = append 
+                {xs, s_inj 
+                    (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len (x∷zs) 
                     =(β) s(len zs) 
                     =(r) s(n + m)
                     =(β) s(n) + m]}
@@ -272,38 +275,41 @@
 #polylux-slide(max-repetitions: 20)[
     #only("-7, 11-")[
         ```haskell
-        append : ∀{m n: ℕ} -> Vec a m -> Vec a n -> Vec a (n + m)
+        append' : ∀{m n: ℕ} -> Vec A m -> Vec A n -> Vec A (n + m)
         ```
     ]
     #only("1-5")[
         ```haskell
-        append {0 n} {[], p} {ys, q} = {ys, (_: len ys = n + 0)}
+        append' {0 n} {[], p} {ys, q} = {ys, (_: len ys = n + 0)}
         ```
     ]
     #only("6-7, 11-")[
         ```haskell
-        append {0 n} {[], p} {ys, q} = {ys, 
-            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}
+        append' {0 n} {[], p} {ys, q} = {ys, 
+            trans[len ys =(q) n =(zero-right-id {n}) n + 0]}
         ```
     ]
     #only("1-11")[
         ```haskell
-        append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append xs ys in 
+        append' {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append' {xs, (_: len xs = m} {ys, q} in 
                 {x∷zs, (_: len (x∷zs) = n + (s m))}
         ```
     ]
     #only("12")[
         ```haskell
-        append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append xs ys in 
-                {x∷zs, trans[len(x∷zs
+        append' {(s m) n} {(x∷xs), p} {ys, q} 
+            = let {zs, r} = append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len(x∷zs)
                     =(β) s (len zs)
                     =(r) s (n + m)
-                    =(succ_left {n} {m}) n + (s m)]}
+                    =(succ-right {n} {m}) n + (s m)]}
         ```
     ]
-    #only("2-")[
+    #only("2-11")[
         #v(1em)
         ```haskell
         zero-right-id : ∀{n: ℕ} -> n + 0 = n 
@@ -321,7 +327,7 @@
         ]
         ```
     ]
-    #only("8-")[
+    #only("8-11")[
         ```haskell
         succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
         ```
@@ -335,10 +341,111 @@
         ```haskell
         succ-right {s m} {n} = trans[(s m) + (s n) 
             =(β) s (m + (s n))
-            =(succ_left {m} {n}) s (s (m + n))
+            =(succ-right {m} {n}) s (s (m + n))
             =(β) s ((s m) + n)]
         ```
     ]
+]
+
+#polylux-slide(max-repetitions: 20)[
+    #only("1-7")[
+        ```haskell
+        |append'| : () -> () -> List |A| -> List |A| -> List |A|
+        ```
+    ]
+    #only(1)[
+        ```haskell
+        |append' {0 n} {[], p} {ys, q}| = |{ys, 
+            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
+        ```
+        ```haskell
+        |append' {(s m) n} {(x∷xs), p} {ys, q}| 
+            = |let {zs, r} = append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(2)[
+        ```haskell
+        |append'| () () [] ys = |{ys, 
+            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
+        ```
+    ]
+    #only("3-7")[
+        ```haskell
+        |append'| () () [] ys = ys
+        ```
+    ]
+    #only("2-3")[
+        ```haskell
+        |append'| () () ys 
+            = |let {zs, r} = append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(4)[
+        ```haskell
+        |append'| () () {ys, q} 
+            = let zs = |append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q}| in 
+                |{x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(5)[
+        ```haskell
+        |append'| () () {ys, q} 
+            = let zs = |append'| xs ys in 
+                |{x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(6)[
+        ```haskell
+        |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
+        ```
+    ]
+    #only(7)[
+        ```haskell
+        |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
+        ```
+    ]
+]
+
+#slide[
+    ```haskell
+    |append'| : () -> () -> List |A| -> List |A| -> List |A|
+    |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
+    |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
+    ```
+    #v(0.5em)
+    ```haskell
+    |append| : () -> () -> List |A| -> List |A| -> List |A|
+    |append| () () {ys, q} = let zs = |append| xs ys in |x∷zs|
+    |append| () () {ys, q} = let zs = |append| xs ys in x∷zs
+    ```
+    #v(2em)
+    #align(center, only(2)[
+        #set text(size: 40pt)
+        `|append| ≡ |append'|`
+    ])
 ]
 
 #slide[
