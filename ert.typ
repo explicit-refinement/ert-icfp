@@ -347,107 +347,6 @@
     ]
 ]
 
-#polylux-slide(max-repetitions: 20)[
-    #only("1-7")[
-        ```haskell
-        |append'| : () -> () -> List |A| -> List |A| -> List |A|
-        ```
-    ]
-    #only(1)[
-        ```haskell
-        |append' {0 n} {[], p} {ys, q}| = |{ys, 
-            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
-        ```
-        ```haskell
-        |append' {(s m) n} {(x∷xs), p} {ys, q}| 
-            = |let {zs, r} = append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q} in 
-                {x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(2)[
-        ```haskell
-        |append'| () () [] ys = |{ys, 
-            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
-        ```
-    ]
-    #only("3-7")[
-        ```haskell
-        |append'| () () [] ys = ys
-        ```
-    ]
-    #only("2-3")[
-        ```haskell
-        |append'| () () ys 
-            = |let {zs, r} = append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q} in 
-                {x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(4)[
-        ```haskell
-        |append'| () () {ys, q} 
-            = let zs = |append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q}| in 
-                |{x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(5)[
-        ```haskell
-        |append'| () () {ys, q} 
-            = let zs = |append'| xs ys in 
-                |{x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(6)[
-        ```haskell
-        |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
-        ```
-    ]
-    #only(7)[
-        ```haskell
-        |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
-        ```
-    ]
-]
-
-#slide[
-    ```haskell
-    |append'| : () -> () -> List |A| -> List |A| -> List |A|
-    |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
-    |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
-    ```
-    #v(0.5em)
-    ```haskell
-    |append| : () -> () -> List |A| -> List |A| -> List |A|
-    |append| () () {ys, q} = let zs = |append| xs ys in |x∷zs|
-    |append| () () {ys, q} = let zs = |append| xs ys in x∷zs
-    ```
-    #v(2em)
-    #align(center, only(2)[
-        #set text(size: 40pt)
-        `|append| ≡ |append'|`
-    ])
-]
-
 #slide[
     ```haskell
     zero-right-id : ∀{n: ℕ} -> n + 0 = n 
@@ -572,4 +471,383 @@
             =(mul-succ {(s n)} {m}) n * (s m)]
         ```
     ]
+]
+
+#focus-slide[
+    = Erasure
+]
+
+#slide[
+    ```haskell
+    append' : ∀{m n: ℕ} -> Vec A m -> Vec A n -> Vec A (n + m)
+    ```
+    ```haskell
+    append' {0 n} {[], p} {ys, q} = {ys, 
+        trans[len ys =(q) n =(zero-right-id {n}) n + 0]}
+    ```
+    ```haskell 
+    append' {(s m) n} {(x∷xs), p} {ys, q} 
+        = let {zs, r} = append' 
+            {xs, s_inj 
+                    (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+            {ys, q} in 
+            {x∷zs, trans[len(x∷zs)
+                =(β) s (len zs)
+                =(r) s (n + m)
+                =(succ-right {n} {m}) n + (s m)]}
+    ```
+]
+#slide[
+    #only("1-7")[
+        ```haskell
+        |append'| : () -> () -> List |A| -> List |A| -> List |A|
+        ```
+    ]
+    #only(1)[
+        ```haskell
+        |append' {0 n} {[], p} {ys, q}| = |{ys, 
+            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
+        ```
+        ```haskell
+        |append' {(s m) n} {(x∷xs), p} {ys, q}| 
+            = |let {zs, r} = append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(2)[
+        ```haskell
+        |append'| () () [] ys = |{ys, 
+            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
+        ```
+    ]
+    #only("3-7")[
+        ```haskell
+        |append'| () () [] ys = ys
+        ```
+    ]
+    #only("2-3")[
+        ```haskell
+        |append'| () () ys 
+            = |let {zs, r} = append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q} in 
+                {x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(4)[
+        ```haskell
+        |append'| () () {ys, q} 
+            = let zs = |append' 
+                {xs, s_inj 
+                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+                {ys, q}| in 
+                |{x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(5)[
+        ```haskell
+        |append'| () () {ys, q} 
+            = let zs = |append'| xs ys in 
+                |{x∷zs, trans[len(x∷zs)
+                    =(β) s (len zs)
+                    =(r) s (n + m)
+                    =(succ-right {n} {m}) n + (s m)]}|
+        ```
+    ]
+    #only(6)[
+        ```haskell
+        |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
+        ```
+    ]
+    #only(7)[
+        ```haskell
+        |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
+        ```
+    ]
+]
+
+#slide[
+    ```haskell
+    |append'| : () -> () -> List |A| -> List |A| -> List |A|
+    |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
+    |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
+    ```
+    #v(0.5em)
+    ```haskell
+    |append| : () -> () -> List |A| -> List |A| -> List |A|
+    |append| () () {ys, q} = let zs = |append| xs ys in |x∷zs|
+    |append| () () {ys, q} = let zs = |append| xs ys in x∷zs
+    ```
+    #v(2em)
+    #align(center, only(2)[
+        #set text(size: 40pt)
+        `|append| ≡ |append'|`
+    ])
+]
+
+#focus-slide[
+    = Semantics
+]
+
+#let sep = $med | med$
+#let dnt(tm) = $[|tm|]$
+#let tstlc = $scripts(⊢)_λ$
+
+#polylux-slide(max-repetitions: 25)[
+    = Erasure, Actually
+
+    #v(1em)
+
+    #grid(
+        row-gutter: 1em,
+        column-gutter: 0.5em,
+        columns: 6,
+        $X, Y :=$,
+        uncover("2-", $bold(1)$),
+        uncover("2-", $| ℕ$), 
+        uncover("3-", $| X + Y$),
+        uncover("4-", $| X × Y$),
+        uncover("5-", $| X -> Y$),
+        uncover("6-", $A, B :=$),
+        uncover("7-", $bold(1)$),
+        uncover("7-", $| ℕ$), 
+        uncover("8-", $| A + B$),
+        uncover("9-", $| (a: A) × B$),
+        uncover("10-", $| (a: A) → B$),
+        $$, $$, $$, $$,
+        uncover("11-", $| ∃a: A, B$),
+        uncover("12-", $| ∀a: A, B$),
+        $$, $$, $$, $$,
+        uncover("13-", $| {a: A | φ}$),
+        uncover("15-", $| (p: φ) => A$),
+        uncover("14-", $φ, ψ :=$),
+        uncover("16-", $⊤$),
+        uncover("16-", $| ⊥$),
+        uncover("17-", $| φ ∨ ψ$),
+        uncover("17-", $| (p: φ) ∧ ψ$),
+        uncover("18-", $| (p: φ) => ψ$),
+        $$, $$, $$, uncover("20-", $| a scripts(=)_A b$),
+        uncover("19-", $| ∃a: A, φ$),
+        uncover("19-", $| ∀a: A, φ$),
+    )
+
+    #only("7-13, 15")[
+        #align(center + horizon, rect(inset: 0.5em)[
+            #only(7, $|bold(1)| = bold(1), quad |ℕ| = ℕ$)
+            #only(8, $|A + B| = |X| + |Y|$)
+            #only(9, $|(a: A) × B| = |A| × |B|$)
+            #only(10, $|(a: A) → B| = |A| → |B|$)
+            #only(11, $|∃a: A, B| = |B|$)
+            #only(12, $|∀a: A, B| = bold(1) -> |B|$)
+            #only(13, $|{a: A | φ}| = |A|$)
+            #only(15, $|(p: φ) => A| = bold(1) -> |A|$)
+        ])
+    ]
+    #only("21-24")[
+        $Γ := quad dot 
+            #only("22-", $sep Γ, x: A$)
+            #only("23-", $sep Γ, ||x: A||$) 
+            #only("24-", $sep Γ, p: φ$)
+            #only("22", $quad (|Γ, x: A| = |Γ|, x: |A|)$)
+            #only("23", $quad (|Γ, ||x: A||| = |Γ|, x: bold(1))$)
+            #only("24", $quad (|Γ, p: φ| = |Γ|, p: bold(1))$)
+        $
+    ]
+    #only("25")[
+        #align(center + horizon,
+            $
+            Γ ⊢ a: A ==> |Γ| tstlc |a|: |A|
+            $
+        )
+    ]
+]
+
+#slide[
+    = Erasure, Actually
+
+    $
+    #rect(inset: 0.5em, $
+        dnt(X): sans("Set")
+    $)
+    $
+    $
+    dnt(bold(1)) = {*}, quad dnt(ℕ) = ℕ, quad dnt(X + Y) = dnt(X) ⊔ dnt(Y),
+    $
+    $
+    dnt(X × Y) = dnt(X) × dnt(Y), quad dnt(X → Y) = dnt(X) → 
+    #only("3-", $sans(M)$)#only("2", text(red, $sans(M)$))dnt(Y)
+    $
+    #only("3-")[
+        $
+        #rect(inset: 0.5em, $
+            dnt(Δ): sans("Set")
+        $)
+        $
+        $
+        dnt(dot) = {*}, quad
+        dnt(#$Δ, x: A$) = dnt(Γ) × sans(M)A
+        $
+    ]
+]
+
+#polylux-slide(max-repetitions: 20)[
+    = Erasure, Actually
+    $
+        #rect(inset: 0.5em, $dnt(X): sans("Set")$) quad
+        #rect(inset: 0.5em, $dnt(Γ): sans("Set")$)
+        #only("3-", $
+            quad #rect(inset: 0.5em, 
+                $dnt(Γ tstlc t: X): dnt(Γ) -> sans(M) dnt(X)$)
+        $)
+    $
+    #only("2")[
+        $
+        #rect(inset: 0.5em, $dnt(Γ tstlc t: X): dnt(Γ) -> sans(M) dnt(X)$) 
+        $
+    ]
+    #only("3-")[
+        $
+        #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")): dnt(|Γ^(#only("4", text(red, $↑$))#only("5-", $↑$))|) -> cal(P)(dnt(|A|))$)
+        #only("7-", $
+            quad #rect(inset: 0.5em, 
+                $dnt(Γ tstlc φ sans("pr")) ⊆ dnt(|Γ^↑|)$)
+        $)
+        $
+    ]
+    #only("4")[
+        $
+        dot^↑ &= dot \
+        (Γ, x: A)^↑ &= Γ^↑, x: A \ 
+        (Γ, ||x: A||)^↑ &= Γ^↑, x: A \
+        (Γ, p: φ)^↑ &= Γ^↑, p: φ \
+        $
+    ]
+    #only("5")[
+        $
+        dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med G &
+        = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med G)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (G, sans("ret") x)
+        $
+    ]
+    #only("6")[
+        $
+        dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med G 
+        & = {f: bold(1) -> sans(M)dnt(|B|) 
+        \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med G,
+        \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(G, sans("ret") x) 
+        }
+        $
+    ]
+    #only("8-9")[
+        $
+        dnt(Γ ⊢ a scripts(=)_A b sans("pr")) 
+            = {G | dnt(|Γ^↑ ⊢ a: A|) med G = dnt(|Γ^↑ ⊢ b: A|) med G}
+        $
+    ]
+    #only("9")[
+        $
+        dnt(Γ ⊢ ⊤ sans("pr")) = dnt(|Γ^↑|) quad
+        dnt(Γ ⊢ ⊥ sans("pr")) = {}
+        $
+    ]
+    #only("10-11")[
+        $
+        dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) 
+        & = {G | ∃x ∈ dnt(Γ ⊢ A sans("ty")) med G, 
+        \ & #h(4em) (G, sans("ret") x) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
+        $
+    ]
+    #only("11")[
+        $
+        dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) 
+        & = {G | ∀x ∈ dnt(Γ ⊢ A sans("ty")) med G, 
+        \ & #h(4em) (G, sans("ret") x) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
+        $
+    ]
+    #only("12")[
+        $
+        dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med G 
+        &= {a ∈ dnt(Γ ⊢ A sans("ty")) med G 
+        \ & #h(4em) | (G, a) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
+        $
+    ]
+    #only("13-")[
+        $
+        #rect(inset: 0.5em, 
+                $dnt(Γ sans("ok")) ⊆ dnt(|Γ^↑|)$)
+        $
+    ]
+    #only("14")[
+        $
+        dnt(dot sans("ok")) = {*} quad
+        dnt(#$Γ, p: φ sans("ok")$) = dnt(Γ sans("ok")) ∩ dnt(Γ ⊢ φ: sans("pr"))
+        $
+    ]
+    #only("15")[
+        $
+        dnt(#$Γ, x: A$) =
+        dnt(#$Γ, ||x: A||$) &= {(G, sans("ret") x) 
+            \ & #h(2em) | G ∈ dnt(Γ sans("ok")) ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med G}
+        $
+    ]
+]
+
+#slide[
+    = Semantic Regularity
+
+    #align(center + horizon, [
+        #uncover("2-")[
+            $
+            ∀G ∈ dnt(Γ sans("ok")),
+                dnt(|Γ| tstlc |a|: |A|) med G^↓
+                ∈ dnt(Γ ⊢ a sans("ty")) med G
+            $
+        ]
+        #uncover("3-")[
+            $
+            dnt(Γ ⊢ ⊥ sans("pr")) = {}
+            $
+        ]
+    ])
+]
+
+#slide[
+    = Recap
+    #line-by-line[
+        - We introduce the language #ert:
+        - We take a simply typed, effectful lambda calculus #stlc and add refinements 
+        - We support a rich logic of properties:
+            - Full first-order quantifiers
+            - Ghost variables/arguments
+        - We support explicit proofs of all properties
+        - We give everything a denotational semantics, and prove it sound
+        - Everything is mechanized in ∼15,000 lines of Lean 4
+    ]
+]
+
+#slide[
+    = Future Work
+    #line-by-line[
+        - *Automation and solver integration*
+        - Function extensionality
+        - Recursion
+        - Effects
+        - Higher order logic
+    ]
+    #only("6-", align(center + horizon)[
+        == Thank you for listening!
+        Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
+    ])
 ]
