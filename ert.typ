@@ -159,7 +159,9 @@
 
 #slide[
     = Reliability
-    #align(center, box(align(left, one-by-one[
+    #align(center, box(align(left, one-by-one[][
+        #cite("fuzz", style: "chicago-author-title")
+    ][
     ][
         ```
         (assert (forall ((a Int))
@@ -851,3 +853,5 @@
         Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
     ])
 ]
+
+#bibliography("references.bib")
