@@ -196,8 +196,8 @@
         ],
         only("2-", pro[High automation]),
         only("3-", con[Low automation]),
-        only("4-", con[Weak properties]),
-        only("5-", pro[Strong properties]),
+        only("4-", con[Low expressivity]),
+        only("5-", pro[High expressivity]),
         only("6-", con[Big TCB]),
         only("7-", pro[Small TCB])
     ))
@@ -349,6 +349,7 @@
     ]
 ]
 
+/*
 #slide[
     ```haskell
     zero-right-id : ∀{n: ℕ} -> n + 0 = n 
@@ -467,6 +468,42 @@
         ```
     ]
     #only("4-")[
+        ```
+        mul-comm {s m} {n} = trans[(s m) * n =(β) (m * n) + n 
+            =(mul-comm {m} {s n}) (n * m) + n
+            =(mul-succ {(s n)} {m}) n * (s m)]
+        ```
+    ]
+]
+*/
+
+#slide[
+    ```haskell
+    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
+    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
+    ```
+    #only("3-")[
+    ```haskell
+    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
+    ```
+    ]
+    #only("4-")[
+    ```haskell
+    mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
+    ```
+    ]
+    #only("2-")[
+        ```
+        mul-comm: ∀{m n: ℕ} -> m * n = n * m
+        ```
+    ]
+    #only("5-")[
+        ```
+        mul-comm {0} {n} = trans[0 * n 
+            =(β) 0 =(mul-zero-right {n}) n * 0]
+        ```
+    ]
+    #only("6-")[
         ```
         mul-comm {s m} {n} = trans[(s m) * n =(β) (m * n) + n 
             =(mul-comm {m} {s n}) (n * m) + n
