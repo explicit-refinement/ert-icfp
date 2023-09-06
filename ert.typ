@@ -422,37 +422,33 @@
 ]
 
 #slide[
-    ```haskell
-    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
     ```
-    #only("3-")[
-    ```haskell
-    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
+    mul-comm: ∀{m n: ℕ} -> m * n = n * m
     ```
-    ]
-    #only("4-")[
-    ```haskell
-    mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
-    ```
-    ]
     #only("2-")[
         ```
-        mul-comm: ∀{m n: ℕ} -> m * n = n * m
+        mul-comm 0 n = trans[0 * n 
+            =(β) 0 =(mul-zero-right n) n * 0]
         ```
     ]
-    #only("5-")[
+    #only("4-")[
         ```
-        mul-comm {0} {n} = trans[0 * n 
-            =(β) 0 =(mul-zero-right {n}) n * 0]
+        mul-comm (s m) n = trans[(s m) * n =(β) (m * n) + n 
+            =(mul-comm m (s n)) (n * m) + n
+            =(mul-succ (s n) m) n * (s m)]
         ```
     ]
-    #only("6-")[
-        ```
-        mul-comm {s m} {n} = trans[(s m) * n =(β) (m * n) + n 
-            =(mul-comm {m} {s n}) (n * m) + n
-            =(mul-succ {(s n)} {m}) n * (s m)]
-        ```
+    #align(bottom)[
+        #uncover("3-")[
+            ```
+            mul-zero-right : ∀n: ℕ -> n * 0 = 0
+            ```
+        ]
+        #uncover("5-")[
+            ```
+            mul-succ : ∀m n: ℕ -> m * (s n) = m * n + m
+            ```
+        ]
     ]
 ]
 
@@ -490,8 +486,8 @@
         uncover("12-", $| ∀a: A, B$),
         $$, $$, $$, $$,
         uncover("13-", $| {a: A | φ}$),
-        uncover("15-", $| (p: φ) => A$),
-        uncover("14-", $φ, ψ :=$),
+        uncover("14-", $| (p: φ) => A$),
+        uncover("15-", $φ, ψ :=$),
         uncover("16-", $⊤$),
         uncover("16-", $| ⊥$),
         uncover("17-", $| φ ∨ ψ$),
