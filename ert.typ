@@ -1,4 +1,4 @@
-#import "@preview/polylux:0.2.0": *
+#import "@preview/polylux:0.3.1": *
 
 #import themes.simple: *
 
@@ -460,11 +460,7 @@
 #let dnt(tm) = $[|tm|]$
 #let tstlc = $scripts(⊢)_λ$
 
-#polylux-slide(max-repetitions: 25)[
-    = Erasure, Actually
-
-    #v(1em)
-
+#polylux-slide(max-repetitions: 28)[
     #grid(
         row-gutter: 1em,
         column-gutter: 0.5em,
@@ -497,8 +493,7 @@
         uncover("19-", $| ∃a: A, φ$),
         uncover("19-", $| ∀a: A, φ$),
     )
-
-    #only("7-13, 15")[
+    #only("7-14")[
         #align(center + horizon, rect(inset: 0.5em)[
             #only(7, $|bold(1)| = bold(1), quad |ℕ| = ℕ$)
             #only(8, $|A + B| = |X| + |Y|$)
@@ -507,31 +502,43 @@
             #only(11, $|∃a: A, B| = |B|$)
             #only(12, $|∀a: A, B| = bold(1) -> |B|$)
             #only(13, $|{a: A | φ}| = |A|$)
-            #only(15, $|(p: φ) => A| = bold(1) -> |A|$)
+            #only(14, $|(p: φ) => A| = bold(1) -> |A|$)
         ])
     ]
-    #only("21-24")[
+
+    #only("24-")[
         $Γ := quad dot 
-            #only("22-", $sep Γ, x: A$)
-            #only("23-", $sep Γ, ||x: A||$) 
-            #only("24-", $sep Γ, p: φ$)
-            #only("22", $quad (|Γ, x: A| = |Γ|, x: |A|)$)
-            #only("23", $quad (|Γ, ||x: A||| = |Γ|, x: bold(1))$)
-            #only("24", $quad (|Γ, p: φ| = |Γ|, p: bold(1))$)
+            #only("24-", $sep Γ, x: A$)
+            #only("25-", $sep Γ, p: φ$)
+            #only("26-", $sep Γ, ||x: A||$) 
+            quad quad
+            #only("24-26")[
+                #rect(inset: 0.5em)[
+                    #only("24", $|Γ, x: A| = |Γ|, x: |A|$)
+                    #only("25", $|Γ, p: φ| = |Γ|, p: bold(1)$)
+                    #only("26", $|Γ, ||x: A||| = |Γ|, x: bold(1)$)
+                ]
+            ]
         $
     ]
-    #only("25")[
-        #align(center + horizon,
-            $
-            Γ ⊢ a: A ==> |Γ| tstlc |a|: |A|
-            $
+
+    #align(center + horizon)[
+        #uncover("22-", $Γ ⊢ a: A$)
+        #uncover("23-", $quad ==> quad $)
+        #alternatives-match((
+            "21-22": $Δ tstlc t: X$,
+            "23-": $|Γ| tstlc |a|: |A|$
+        ))
+
+        #grid(columns: 2, 
+            column-gutter: 3em,
+            only("27-")[$Γ ⊢ A sans("ty")$],
+            only("28-")[$Γ ⊢ φ sans("pr")$]
         )
     ]
 ]
 
 #slide[
-    = Erasure, Actually
-
     $
     #rect(inset: 0.5em, $
         dnt(X): sans("Set")
