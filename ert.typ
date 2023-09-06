@@ -71,7 +71,7 @@
         `append : List A -> List A -> List A`
     ]
     #only("2-")[
-        `append : ∀{m n : ℕ} -> Vec A m -> Vec A n -> Vec A `
+        `append : (m n : ℕ) -> Vec A m -> Vec A n -> Vec A `
         #only("-3")[`(m + n)`]
         #only("4", text(red, `(n + m)`))
         #only("5-", `(n + m)`)
@@ -202,6 +202,8 @@
 ]
 */
 
+#let gst(x) = text(gray, x)
+
 #slide[
     #only(1)[
         ```haskell
@@ -209,12 +211,37 @@
         append :: [a] -> [a] -> [a]
         ```
     ]
-    #only("2-7")[
+    #only("2-")[
         ```haskell
-        append : ∀{m n: ℕ} -> Vec A m -> Vec A n -> Vec A (m + n)
+        append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A (m + n)
         ```
     ]
-    #only("-4")[
+    #only("3-5")[
+        `append `#gst(`0 n`)` [] ys = ys`
+    ]
+    #only("6-")[
+        `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#text(gray,{
+            only("6", `, _: len ys = 0 + n`)
+            only("7", [`, `
+
+            `   trans[len ys =(q) n =(?) 0 + n]`]
+            )
+            only("8-", [`, `
+            
+            `   trans[len ys =(q) n =(β) 0 + n]`]
+            )
+        })
+    ]
+
+    #only("9-")[
+        `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+
+        `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+        #gst(`n m {`)`xs`#gst(`, _: len xs = n}`)` in `
+
+        `       `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+    ]
+    #only("1")[
         ```haskell
         append [] ys = ys
         ```
@@ -222,51 +249,118 @@
         append (x:xs) ys = x:(append xs ys)
         ```
     ]
-    #only("3-4")[
-        #v(1em)
-        ```haskell
-        Vec A n := { l : List A | len l = n }
-        ```
+    #align(bottom)[
+        #only("4-5")[
+            #v(1em)
+            ```haskell
+            data Vec (A : Set a) : ℕ → Set a where
+            []  : Vec A zero
+            _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (suc n)
+            ```
+        ]
+        #uncover("5")[
+            vs.
+        ]
+        #uncover("5-")[
+            ```haskell
+            Vec A n := { l : List A | len l = n }
+            ```
+        ]
     ]
-    #only("4")[
-        vs.
-        ```haskell
-        data Vec (A : Set a) : ℕ → Set a where
-        []  : Vec A zero
-        _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (suc n)
-        ```
-    ]
-    #only("5")[
-        ```haskell
-        append {0 n} {[], p} {ys, q} = {ys, (_: len ys = 0 + n)}
-        ```
-    ]
-    #only("6-7")[
-        ```haskell
-        append {0 n} {[], p} {ys, q} = {ys, 
-            trans[ len ys =(q) n =(β) 0 + n ]}
-        ```
-    ]
-    #only("5-6")[
-        ```haskell
-        append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append {xs, (_: len xs = m)} {ys, q} in 
-                {x∷zs, (_: len (x∷zs) = (s m) + n)}
-        ```
-    ]
-    #only("7")[
-        ```haskell
-        append {(s m) n} {(x∷xs), p} {ys, q} 
-            = let {zs, r} = append 
-                {xs, s_inj 
-                    (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q} in 
-                {x∷zs, trans[len (x∷zs) 
-                    =(β) s(len zs) 
-                    =(r) s(n + m)
-                    =(β) s(n) + m]}
-        ```
-    ]
+]
+
+#slide[
+    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+
+    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+    #gst(`n m {`)`xs`#gst(`, _: len xs = m}`)` in `
+
+    #gst(`     {`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+]
+
+#slide[
+    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+
+    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+    #gst(`n m {`)`xs`#gst(`,`)
+
+    #gst(`       s_inj (_: s (len xs) = s m)}`)
+    
+    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+]
+
+#slide[
+    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+
+    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+    #gst(`n m {`)`xs`#gst(`,`)
+
+    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
+
+
+    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+]
+
+#slide[
+    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+
+    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+    #gst(`n m {`)`xs`#gst(`,`)
+
+    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
+
+
+    `   in `#gst(`{`)`x:zs`#gst([
+        `, trans[(s m) + n ` 
+        
+        #only("2-", `                             =(β) s(m + n)`)
+        
+        #only("3-", `                             =(r) s(len zs)`)
+
+        #only("4-")[
+            `                             =(β) len (x:zs)`
+
+            `   ]}`
+        ]
+        ])
+]
+
+#slide[
+    ```haskell
+    append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A (m + n)
+    ```
+
+    // #only("5")[
+    //     ```haskell
+    //     append {0 n} {[], p} {ys, q} = {ys, (_: len ys = 0 + n)}
+    //     ```
+    // ]
+    // #only("6-7")[
+    //     ```haskell
+    //     append {0 n} {[], p} {ys, q} = {ys, 
+    //         trans[ len ys =(q) n =(β) 0 + n ]}
+    //     ```
+    // ]
+    // #only("5-6")[
+    //     ```haskell
+    //     append {(s m) n} {(x∷xs), p} {ys, q} 
+    //         = let {zs, r} = append {xs, (_: len xs = m)} {ys, q} in 
+    //             {x∷zs, (_: len (x∷zs) = (s m) + n)}
+    //     ```
+    // ]
+    // #only("7")[
+    //     ```haskell
+    //     append {(s m) n} {(x∷xs), p} {ys, q} 
+    //         = let {zs, r} = append 
+    //             {xs, s_inj 
+    //                 (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
+    //             {ys, q} in 
+    //             {x∷zs, trans[len (x∷zs) 
+    //                 =(β) s(len zs) 
+    //                 =(r) s(n + m)
+    //                 =(β) s(n) + m]}
+    //     ```
+    // ]
 ]
 
 #polylux-slide(max-repetitions: 20)[
@@ -344,134 +438,6 @@
     ]
 ]
 
-/*
-#slide[
-    ```haskell
-    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
-    ```
-    #only("2-")[
-    ```haskell
-    add-comm : ∀{m n: ℕ} -> m + n = n + m
-    ```
-    ]
-    #only("3-")[
-    ```haskell
-    add-comm m 0 = trans[m + 0 =(zero-right-id {m}) m =(β) 0 + m]
-    ```
-    ]
-    #only("4-")[
-    ```haskell
-    add-comm m (s n) = trans[m + (s n) 
-        =(succ-right {m n}) s (m + n) 
-        =(add-comm {m n}) s (n + m)
-        =(β) (s n) + m]
-    ```
-    ]
-]
-
-#slide[
-    ```haskell
-    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
-    add-comm : ∀{m n: ℕ} -> m + n = n + m
-    ```
-    #only("2-")[
-        ```haskell
-        _*_ : ℕ -> ℕ -> ℕ
-        0 * n = 0
-        (s m) * n = (m * n) + n
-        ```
-    ]
-    #only("3-")[
-        ```
-        mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
-        ```
-    ]
-    #only("4-")[
-        ```
-        mul-zero-right {0} = β
-        ```
-    ]
-    #only("5-")[
-        ```
-        mul-zero-right {s n} = trans[(s n) * 0
-            =(β) (n * 0) + 0 
-            =(mul-zero-right {n}) 0 + 0
-            =(β) 0]
-        ```
-    ]
-]
-
-#slide[
-    #only("-4")[
-    ```haskell
-    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
-    add-comm : ∀{m n: ℕ} -> m + n = n + m
-    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
-    ```
-    ]
-    #only("4-")[
-        ```haskell
-        add-assoc : ∀{m n l: ℕ} -> m + (n + l) = (m + n) + l
-        ```
-    ]
-    #only("2-4")[
-        ```
-        mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
-        ```
-    ]
-    #only("3")[
-        ```
-        mul-succ {0} {n} = β
-        ```
-    ]
-    #only("5-")[
-        ```
-        mul-succ {s m} {n} = trans[(s m) * (s n)
-            =(β) m * (s n) + (s n)
-            =(mul-succ {m} {n}) (m * n + m) + (s n)
-            =(add-assoc {m * n} {n} {s n}) m * n + (m + (s n))
-            =(succ-right {m} {n}) m * n + (s (m + n))
-            =(β) m * n + ((s m) + n)
-            =(add-comm {s m} {n})  m * n + (n + (s m))
-            =(add-assoc {m * n} {n} {s m}) (m * n + n) + (s m)
-            =(β) (s m) * n + (s m)
-        ```
-    ]
-]
-
-#slide[
-    ```haskell
-    zero-right-id : ∀{n: ℕ} -> n + 0 = n 
-    succ-right : ∀{m n: ℕ} -> m + (s n) = s (m + n)
-    add-comm : ∀{m n: ℕ} -> m + n = n + m
-    add-assoc: ∀{m n l: ℕ} -> (m + n) + l = m + (n + l)
-    mul-zero-right : ∀{n: ℕ} -> n * 0 = 0
-    mul-succ : ∀{m n: ℕ} -> m * (s n) = m * n + m
-    ```
-    #only("2-4")[
-        ```
-        mul-comm: ∀{m n: ℕ} -> m * n = n * m
-        ```
-    ]
-    #only("3-")[
-        ```
-        mul-comm {0} {n} = trans[0 * n 
-            =(β) 0 =(mul-zero-right {n}) n * 0]
-        ```
-    ]
-    #only("4-")[
-        ```
-        mul-comm {s m} {n} = trans[(s m) * n =(β) (m * n) + n 
-            =(mul-comm {m} {s n}) (n * m) + n
-            =(mul-succ {(s n)} {m}) n * (s m)]
-        ```
-    ]
-]
-*/
-
 #slide[
     ```haskell
     zero-right-id : ∀{n: ℕ} -> n + 0 = n 
@@ -505,131 +471,6 @@
             =(mul-succ {(s n)} {m}) n * (s m)]
         ```
     ]
-]
-
-#focus-slide[
-    = Erasure
-]
-
-#slide[
-    ```haskell
-    append' : ∀{m n: ℕ} -> Vec A m -> Vec A n -> Vec A (n + m)
-    ```
-    ```haskell
-    append' {0 n} {[], p} {ys, q} = {ys, 
-        trans[len ys =(q) n =(zero-right-id {n}) n + 0]}
-    ```
-    ```haskell 
-    append' {(s m) n} {(x∷xs), p} {ys, q} 
-        = let {zs, r} = append' 
-            {xs, s_inj 
-                    (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-            {ys, q} in 
-            {x∷zs, trans[len(x∷zs)
-                =(β) s (len zs)
-                =(r) s (n + m)
-                =(succ-right {n} {m}) n + (s m)]}
-    ```
-]
-#slide[
-    #only("1-7")[
-        ```haskell
-        |append'| : () -> () -> List |A| -> List |A| -> List |A|
-        ```
-    ]
-    #only(1)[
-        ```haskell
-        |append' {0 n} {[], p} {ys, q}| = |{ys, 
-            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
-        ```
-        ```haskell
-        |append' {(s m) n} {(x∷xs), p} {ys, q}| 
-            = |let {zs, r} = append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q} in 
-                {x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(2)[
-        ```haskell
-        |append'| () () [] ys = |{ys, 
-            trans[len ys =(q) n =(symm (zero-right-id {n})) n + 0]}|
-        ```
-    ]
-    #only("3-7")[
-        ```haskell
-        |append'| () () [] ys = ys
-        ```
-    ]
-    #only("2-3")[
-        ```haskell
-        |append'| () () ys 
-            = |let {zs, r} = append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q} in 
-                {x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(4)[
-        ```haskell
-        |append'| () () {ys, q} 
-            = let zs = |append' 
-                {xs, s_inj 
-                        (trans[s m =(p) len (x∷xs) =(β) s (len x)])} 
-                {ys, q}| in 
-                |{x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(5)[
-        ```haskell
-        |append'| () () {ys, q} 
-            = let zs = |append'| xs ys in 
-                |{x∷zs, trans[len(x∷zs)
-                    =(β) s (len zs)
-                    =(r) s (n + m)
-                    =(succ-right {n} {m}) n + (s m)]}|
-        ```
-    ]
-    #only(6)[
-        ```haskell
-        |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
-        ```
-    ]
-    #only(7)[
-        ```haskell
-        |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
-        ```
-    ]
-]
-
-#slide[
-    ```haskell
-    |append'| : () -> () -> List |A| -> List |A| -> List |A|
-    |append'| () () {ys, q} = let zs = |append'| xs ys in |x∷zs|
-    |append'| () () {ys, q} = let zs = |append'| xs ys in x∷zs
-    ```
-    #v(0.5em)
-    ```haskell
-    |append| : () -> () -> List |A| -> List |A| -> List |A|
-    |append| () () {ys, q} = let zs = |append| xs ys in |x∷zs|
-    |append| () () {ys, q} = let zs = |append| xs ys in x∷zs
-    ```
-    #v(2em)
-    #align(center, only(2)[
-        #set text(size: 40pt)
-        `|append| ≡ |append'|`
-    ])
 ]
 
 #focus-slide[
