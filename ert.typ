@@ -21,20 +21,16 @@
 
 #slide[
     #one-by-one[
-        #only("4-6")[
+        #only("4-")[
             ```haskell
             -- the output length is the sum of the input lengths
             ```
         ]
         #only("7-")[
             ```haskell
-            {-@ append :: l:[a] -> r:[a] -> 
-                {v: [a] | len v == len l + len r} @-}
+            append :: l:[a] -> r:[a] -> {v: [a] | len v == len l + len r}
             ```
         ]
-        ```haskell  
-        append :: [a] -> [a] -> [a]
-        ```
     ][
         ```haskell
         append [] ys = ys
@@ -118,11 +114,8 @@
 
 #slide[
     ```haskell
-    {-@ append :: l:[a] -> r:[a] -> 
-        {v: [a] | len v == len r + len l} @-}
-    ```
-    ```haskell  
-    append :: [a] -> [a] -> [a]
+    -- the output length is the sum of the input lengths
+    append :: l:[a] -> r:[a] -> {v: [a] | len v == len r + len l}
     ```
     ```haskell
     append [] ys = ys
@@ -203,9 +196,11 @@
     ))
 ]
 
+/*
 #focus-slide[
     = ⚠ Disclaimer ⚠
 ]
+*/
 
 #slide[
     #only(1)[
