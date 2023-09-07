@@ -245,8 +245,11 @@
         ```
     ]
     #only("3-")[
-        `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#text(gray,{
-            only("3", `, _: len ys = 0 + n}`)
+        `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst({
+            only("3", [`, `
+
+            `   ... : len ys = 0 + n}`]
+            )
             only("4", [`, `
 
             `   trans[len ys =(q) n =(?) 0 + n]}`]
@@ -264,11 +267,11 @@
 
     #only("7-")[
         `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-        #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
+        #gst(`n m {`)`xs`#gst(`, ... : len xs = n} {`)`ys`#gst(`, q}`)
     ]
 
     #only("8-")[
-        `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+        `   in `#gst(`{`)`x:zs`#gst(`, ... : len(x:zs) = (s m) + n}`)
     ]
     #align(bottom)[
         #only("2-")[
@@ -280,9 +283,9 @@
     ]
 ]
 
-//TODO: going to write a signature and implementation which superficially resembles our Agda program
-//TODO: I have a type that says ∀m n, it says what it says
-//TODO: At this point, want to then give def and can mention that the gray stuff will be explained soon
+// going to write a signature and implementation which superficially resembles our Agda program
+// I have a type that says ∀m n, it says what it says
+// At this point, want to then give def and can mention that the gray stuff will be explained soon
 
 #slide[
     ```
@@ -311,9 +314,9 @@
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
+    #gst(`n m {`)`xs`#gst(`, ... : len xs = n} {`)`ys`#gst(`, q}`)
 
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+    `   in `#gst(`{`)`x:zs`#gst(`, ... : len(x:zs) = (s m) + n}`)
 ]
 
 #slide[
@@ -321,21 +324,21 @@
 
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
-        `   _: len ys = m + 0]`]
+        `   ... : len ys = m + 0]`]
     )
 
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
+    #gst(`n m {`)`xs`#gst(`, ... : len xs = n} {`)`ys`#gst(`, q}`)
 
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = n + (s m)}`)
+    `   in `#gst(`{`)`x:zs`#gst(`, ... : len(x:zs) = n + (s m)}`)
 ]
 
 #slide[
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
-        #only("-4")[`   _: len ys = m + 0]`]
+        #only("-4")[`   ... : len ys = m + 0]`]
         #only("5-")[`   trans[len ys =(q) m =(zero-right-id m) m + 0`]]
     )
 
@@ -373,9 +376,9 @@
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
+    #gst(`n m {`)`xs`#gst(`, ... : len xs = n} {`)`ys`#gst(`, q}`)
 
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = n + (s m)}`)
+    `   in `#gst(`{`)`x:zs`#gst(`, ... : len(x:zs) = n + (s m)}`)
 
     #gst(align(bottom)[
         ```
@@ -396,12 +399,6 @@
         in x:zs
     ```
 ]
-
-//TODO: reinforce by disappearing ghosts again
-
-//TODO: Make underscores ...
-
-//TODO: make lemmas gray
 
 #slide(gst[
     ```
