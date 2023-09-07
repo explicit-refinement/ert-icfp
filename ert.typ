@@ -624,13 +624,13 @@
     #only("3-")[
         $
         #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$)
-        #only("8-", $
+        #only("16-", $
             quad #rect(inset: 0.5em, 
                 $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
         $)
         $
     ]
-    #only("12-")[
+    #only("20-")[
         $
         #rect(inset: 0.5em, 
                 $dnt(Γ sans("ok")): dnt(|Γ^↑|) -> sans("Prop")$)
@@ -654,40 +654,67 @@
             \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
             }
             $
+        ]    
+        #only("6-10")[
+            $
+            γ &∈ dnt(Γ^↑) \
+            #uncover("7-", $dot^↑ &= dot$) \
+            #uncover("8-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+            #uncover("9-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+            #uncover("10-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+            $
         ]
-        #only("6")[
+        #only("11-13")[
+            #uncover("11-")[
+                $
+                dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
+                $
+            ]
+            #uncover("12-")[
+                $
+                dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
+                $
+            ]
+            #uncover("13-")[
+                $
+                dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
+                $
+            ]
+        ]
+        #only("14")[
             $
             dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med γ &
             = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med γ)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (γ, sans("ret") x)
             $
         ]
-        #only("7")[
+        //TODO: remove?
+        #only("15")[
             $
             dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med γ &
             = {x ∈ dnt(Γ ⊢ A sans("ty")) med γ 
             \ & #h(2em) | dnt(#$Γ, x: A ⊢ φ: sans("pr")$) med (γ, sans("ret") x)}
             $
-        ]    
-        #only("8")[
+        ]
+        #only("16")[
             $
             dnt(Γ ⊢ ⊤ sans("pr")) med γ = ⊤ quad
             dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $
         ]
-        #only("9")[
+        #only("17")[
             $
             dnt(Γ ⊢ a scripts(=)_A b sans("pr")) γ
                 = [dnt(|Γ^↑ ⊢ a: A|) med γ = dnt(|Γ^↑ ⊢ b: A|) med γ]
             $
         ]
-        #only("10-11")[
+        #only("18-19")[
             $
             dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) γ
             & = ∃x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
             \ & #h(4em) dnt(#$Γ, x: A ⊢ φ sans("pr")$ (γ, sans("ret") x))
             $
         ]
-        #only("11")[
+        #only("19")[
             $
             dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) γ
             & = ∀x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
@@ -695,48 +722,16 @@
             $
         ]    
     ]
-    #only("12-")[
+    #only("21-")[
         $
         dnt(dot sans("ok")) med γ 
             &= ⊤ \
-        #uncover("13-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
+        #uncover("22-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
             &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ$) \
-        #uncover("14-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
+        #uncover("23-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
             &= dnt(#$Γ, ||x: A||$) med (γ, sans("ret") x) \
             &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
         $
-    ]
-]
-
-#slide[
-    #align(center + horizon)[
-        $
-        #uncover("2-", $γ &∈ dnt(Γ^↑)$) \
-        #uncover("3-", $dot^↑ &= dot$) \
-        #uncover("4-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-        #uncover("5-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-        #uncover("6-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
-        $
-    ]
-]
-
-#slide[
-    #align(center + horizon)[
-        #uncover("2-")[
-            $
-            dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
-            $
-        ]
-        #uncover("3-")[
-            $
-            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
-            $
-        ]
-        #uncover("4-")[
-            $
-            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
-            $
-        ]
     ]
 ]
 

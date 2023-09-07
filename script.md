@@ -144,15 +144,26 @@
 - Contexts are about what you'd expect: we define them to contain monadic terms only to allow reasoning about substitutions of effectful terms
 - The denotation of simply-typed terms is standard...
 - And allows us to give a denotation for refined terms by just taking the denotation of their erasure!
-- In particular, the definition of refined _types_ is just a subset of the denotation of the erased type, as follows
-
-... some examples
-
-... props are props, bro
-
-... we've now got a very special prop: a context is valid
+- In particular, the definition of refined _types_ is just a subset of the denotation of the erased type, which we'll call the set of _valid_ values, as follows
+- Let's take a look at some examples:
+    - Consider the dependent function type:
+        - That's just the set of all erased functions, such that
+        - For all valid inputs
+        - The output is valid: here ℰ just shunts things into the error-stop monad
+    - The universal quantifier is the same, except the argument is erased, as you'd expect
 
 ... a note on ghosts, due to subsets
+    
+    - The existential quantifier is the union, for all valid values of A, of valid values of B.
+    - Subsets are simply all valid values of A satisfying the desired proposition
+- Propositions, of course, are just propositions:
+    - True is true and false is false
+    - Equality is equality of the erased semantics
+    - And quantifiers are quantifiers! Simple!
+- A context being valid, then, is just a proposition on contexts:
+    - The empty context is valid
+    - A context with a proposition variable is valid if that proposition holds
+    - A context with a variable or a ghost variable is valid if...
 
 ... big theorem: semantic regularity
 
