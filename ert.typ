@@ -624,97 +624,95 @@
     #only("3-")[
         $
         #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$)
-        #only("16-", $
-            quad #rect(inset: 0.5em, 
-                $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
-        $)
-        $
-    ]
-    #only("20-")[
-        $
-        #rect(inset: 0.5em, 
-                $dnt(Γ sans("ok")): dnt(|Γ^↑|) -> sans("Prop")$)
         $
     ]
     #align(center+horizon)[
-        #only("4")[
+        #only("4-7")[
             $
             dnt(#$Γ ⊢ (x: A) -> B sans("ty")$) med γ
-            & = {f: dnt(|A|) -> sans(M)dnt(|B|) 
-            \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,
-            \ & #h(3em)  f med a ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
-            }
+            & = #uncover("5-", ${f: dnt(|A|) -> sans(M)dnt(|B|)$) 
+            \ & #uncover("6-", $#h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,$)
+            \ & #uncover("7-", $#h(3em)  f med a ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) }$) 
             $
         ]
-        #only("5")[
+        #only("8")[
             $
-            dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med γ
-            & = {f: bold(1) -> sans(M)dnt(|B|) 
+            dnt(#$Γ ⊢ #text(red, $∀x: A,$) B sans("ty")$) med γ
+            & = {f: #text(red, $bold(1)$) -> sans(M)dnt(|B|) 
             \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,
-            \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
+            \ & #h(3em)  f med #text(red, $()$) ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
             }
             $
         ]    
-        #only("6-10")[
+        #only("9-13")[
             $
             γ &∈ dnt(Γ^↑) \
-            #uncover("7-", $dot^↑ &= dot$) \
-            #uncover("8-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-            #uncover("9-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-            #uncover("10-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+            #uncover("10-", $dot^↑ &= dot$) \
+            #uncover("11-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+            #uncover("12-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+            #uncover("13-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
             $
         ]
-        #only("11-13")[
-            #uncover("11-")[
+        #only("14-16")[
+            #uncover("14-")[
                 $
                 dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
                 $
             ]
-            #uncover("12-")[
+            #uncover("15-")[
                 $
                 dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
                 $
             ]
-            #uncover("13-")[
+            #uncover("16-")[
                 $
                 dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
                 $
             ]
         ]
-        #only("14")[
+        #only("17")[
             $
             dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med γ &
             = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med γ)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (γ, sans("ret") x)
             $
         ]
-        //TODO: remove?
-        #only("15")[
+        #only("18")[
             $
             dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med γ &
             = {x ∈ dnt(Γ ⊢ A sans("ty")) med γ 
             \ & #h(2em) | dnt(#$Γ, x: A ⊢ φ: sans("pr")$) med (γ, sans("ret") x)}
             $
         ]
-        #only("16")[
+    ]
+]
+
+#slide[
+    $
+    #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$) quad
+    #rect(inset: 0.5em, 
+                $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
+    $
+    #align(center + horizon)[
+        #only("2")[
             $
             dnt(Γ ⊢ ⊤ sans("pr")) med γ = ⊤ quad
             dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $
         ]
-        #only("17")[
+        #only("3")[
             $
             dnt(Γ ⊢ a scripts(=)_A b sans("pr")) γ
                 = [dnt(|Γ^↑ ⊢ a: A|) med γ = dnt(|Γ^↑ ⊢ b: A|) med γ]
             $
         ]
-        #only("18-19")[
+        #only("4-5")[
             $
             dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) γ
             & = ∃x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
             \ & #h(4em) dnt(#$Γ, x: A ⊢ φ sans("pr")$ (γ, sans("ret") x))
             $
         ]
-        #only("19")[
+        #only("5")[
             $
             dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) γ
             & = ∀x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
@@ -722,13 +720,25 @@
             $
         ]    
     ]
-    #only("21-")[
+]
+
+#slide[
+    $
+    #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$) quad
+    #rect(inset: 0.5em, 
+                $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
+    $
+    $
+    #rect(inset: 0.5em, 
+            $dnt(Γ sans("ok")): dnt(|Γ^↑|) -> sans("Prop")$)
+    $
+    #align(center + horizon)[      
         $
-        dnt(dot sans("ok")) med γ 
-            &= ⊤ \
-        #uncover("22-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
+        #uncover("2-", $dnt(dot sans("ok")) med γ 
+            &= ⊤$) \
+        #uncover("3-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
             &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ$) \
-        #uncover("23-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
+        #uncover("4-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
             &= dnt(#$Γ, ||x: A||$) med (γ, sans("ret") x) \
             &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
         $
