@@ -731,7 +731,7 @@
             $
             ∀γ ∈ dnt(Γ sans("ok")),
                 dnt(|Γ| tstlc |a|: |A|) med γ^↓
-                ∈ dnt(Γ ⊢ a sans("ty")) med γ
+                ∈ dnt(Γ ⊢ A sans("ty")) med γ
             $
         ]
         #uncover("3-")[
