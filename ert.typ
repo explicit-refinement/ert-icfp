@@ -549,7 +549,7 @@
     $
     $
     dnt(X × Y) = dnt(X) × dnt(Y), quad dnt(X → Y) = dnt(X) → 
-    #only("3-", $sans(M)$)#only("2", text(red, $sans(M)$))dnt(Y)
+    #only("3-", $sans("Error")$)#only("2", text(red, $sans("Error")$))dnt(Y)
     $
     #only("3-")[
         $
@@ -564,103 +564,148 @@
     ]
 ]
 
-#polylux-slide(max-repetitions: 20)[
-    = Erasure, Actually
-    $
-        #rect(inset: 0.5em, $dnt(X): sans("Set")$) quad
-        #rect(inset: 0.5em, $dnt(Γ): sans("Set")$)
-        #only("3-", $
-            quad #rect(inset: 0.5em, 
-                $dnt(Γ tstlc t: X): dnt(Γ) -> sans(M) dnt(X)$)
-        $)
-    $
-    #only("2")[
+#polylux-slide(max-repetitions: 25)[
+    #only("-10")[
         $
-        #rect(inset: 0.5em, $dnt(Γ tstlc t: X): dnt(Γ) -> sans(M) dnt(X)$) 
+            #rect(inset: 0.5em, $dnt(X): sans("Set")$) quad
+            #rect(inset: 0.5em, $dnt(Γ): sans("Set")$)
+            #only("3-", $
+                quad #rect(inset: 0.5em, 
+                    $dnt(Δ tstlc t: X): dnt(Γ) -> sans("Error")dnt(X)$)
+            $)
         $
+        #only("2")[
+            $
+            #rect(inset: 0.5em, 
+                $dnt(Δ tstlc t: X): dnt(Δ) -> sans("Error")dnt(X)$) 
+            $
+        ]
     ]
     #only("3-")[
         $
-        #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")): dnt(|Γ^(#only("4", text(red, $↑$))#only("5-", $↑$))|) -> cal(P)(dnt(|A|))$)
-        #only("7-", $
+        #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ sans("Error")dnt(|A|)$)
+        #only("15-", $
             quad #rect(inset: 0.5em, 
-                $dnt(Γ tstlc φ sans("pr")) ⊆ dnt(|Γ^↑|)$)
+                $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
         $)
         $
     ]
-    #only("4")[
-        $
-        dot^↑ &= dot \
-        (Γ, x: A)^↑ &= Γ^↑, x: A \ 
-        (Γ, ||x: A||)^↑ &= Γ^↑, x: A \
-        (Γ, p: φ)^↑ &= Γ^↑, p: φ \
-        $
-    ]
-    #only("5")[
-        $
-        dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med G &
-        = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med G)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (G, sans("ret") x)
-        $
-    ]
-    #only("6")[
-        $
-        dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med G 
-        & = {f: bold(1) -> sans(M)dnt(|B|) 
-        \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med G,
-        \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(G, sans("ret") x) 
-        }
-        $
-    ]
-    #only("8-9")[
-        $
-        dnt(Γ ⊢ a scripts(=)_A b sans("pr")) 
-            = {G | dnt(|Γ^↑ ⊢ a: A|) med G = dnt(|Γ^↑ ⊢ b: A|) med G}
-        $
-    ]
-    #only("9")[
-        $
-        dnt(Γ ⊢ ⊤ sans("pr")) = dnt(|Γ^↑|) quad
-        dnt(Γ ⊢ ⊥ sans("pr")) = {}
-        $
-    ]
-    #only("10-11")[
-        $
-        dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) 
-        & = {G | ∃x ∈ dnt(Γ ⊢ A sans("ty")) med G, 
-        \ & #h(4em) (G, sans("ret") x) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
-        $
-    ]
-    #only("11")[
-        $
-        dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) 
-        & = {G | ∀x ∈ dnt(Γ ⊢ A sans("ty")) med G, 
-        \ & #h(4em) (G, sans("ret") x) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
-        $
-    ]
-    #only("12")[
-        $
-        dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med G 
-        &= {a ∈ dnt(Γ ⊢ A sans("ty")) med G 
-        \ & #h(4em) | (G, a) ∈ dnt(#$Γ, x: A ⊢ φ sans("pr")$)}
-        $
-    ]
-    #only("13-")[
+    #only("20-")[
         $
         #rect(inset: 0.5em, 
-                $dnt(Γ sans("ok")) ⊆ dnt(|Γ^↑|)$)
+                $dnt(Γ sans("ok")): dnt(|Γ^↑|) -> sans("Prop")$)
         $
     ]
-    #only("14")[
+    #only("4-7")[
         $
-        dnt(dot sans("ok")) = {*} quad
-        dnt(#$Γ, p: φ sans("ok")$) = dnt(Γ sans("ok")) ∩ dnt(Γ ⊢ φ: sans("pr"))
+        γ ∈ dnt(Γ^↑)
         $
     ]
-    #only("15")[
+    #align(center + horizon)[
+        #only("5-7")[
+            $
+            dot^↑ &= dot \
+            #only("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+            #only("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+            #only("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+            $
+        ]
+        #only("8-10")[
+            $
+            dnt({x: ℕ | x < n})
+            $
+        ]
+        #only("9-10")[
+            $
+            dnt({x: ℕ | x < 3}) med γ = {0, 1, 2}
+            $
+        ]
+        #only("10")[
+            $
+            dnt({x: ℕ | x < 5}) med γ = {0, 1, 2, 3, 4}
+            $
+        ]
+        #only("11")[
+            $
+            dnt(#$Γ ⊢ (x: A) -> B sans("ty")$) med γ
+            & = {f: dnt(|A|) -> sans(M)dnt(|B|) 
+            \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,
+            \ & #h(3em)  f med a ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
+            }
+            $
+        ]
+        #only("12")[
+            $
+            dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med γ
+            & = {f: bold(1) -> sans(M)dnt(|B|) 
+            \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,
+            \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
+            }
+            $
+        ]
+        #only("13")[
+            $
+            dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med γ &
+            = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med γ)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (γ, sans("ret") x)
+            $
+        ]
+        #only("14")[
+            $
+            dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med γ &
+            = {x ∈ dnt(Γ ⊢ A sans("ty")) med γ 
+            \ & #h(2em) | dnt(#$Γ, x: A ⊢ φ: sans("pr")$) med (γ, sans("ret") x)}
+            $
+        ]    
+        #only("16")[
+            $
+            dnt(Γ ⊢ ⊤ sans("pr")) med γ = ⊤ quad
+            dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
+            $
+        ]
+        #only("17")[
+            $
+            dnt(Γ ⊢ a scripts(=)_A b sans("pr")) γ
+                = [dnt(|Γ^↑ ⊢ a: A|) med γ = dnt(|Γ^↑ ⊢ b: A|) med γ]
+            $
+        ]
+        #only("18-19")[
+            $
+            dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) γ
+            & = ∃x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
+            \ & #h(4em) dnt(#$Γ, x: A ⊢ φ sans("pr")$ (γ, sans("ret") x))
+            $
+        ]
+        #only("19")[
+            $
+            dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) γ
+            & = ∀x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
+            \ & #h(4em) dnt(#$Γ, x: A ⊢ φ sans("pr")$ (γ, sans("ret") x))
+            $
+        ]    
+    ]
+    #only("21")[
         $
-        dnt(#$Γ, x: A$) =
-        dnt(#$Γ, ||x: A||$) &= {(G, sans("ret") x) 
-            \ & #h(2em) | G ∈ dnt(Γ sans("ok")) ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med G}
+        dnt(dot sans("ok")) med γ 
+            &= ⊤ \
+        $
+    ]
+    #only("22")[
+        $
+        dnt(dot sans("ok")) med γ 
+            &= ⊤ \
+        dnt(#$Γ, p: φ sans("ok")$) med γ 
+            &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ \
+        $
+    ]
+    #only("23")[
+        $
+        dnt(dot sans("ok")) med γ 
+            &= ⊤ \
+        dnt(#$Γ, p: φ sans("ok")$) med γ 
+            &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ \
+        dnt(#$Γ, x: A$) med (γ, sans("ret") x)
+            &= dnt(#$Γ, ||x: A||$) med (γ, sans("ret") x) \
+            &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ
         $
     ]
 ]
@@ -672,13 +717,13 @@
         #uncover("2-")[
             $
             ∀G ∈ dnt(Γ sans("ok")),
-                dnt(|Γ| tstlc |a|: |A|) med G^↓
-                ∈ dnt(Γ ⊢ a sans("ty")) med G
+                dnt(|Γ| tstlc |a|: |A|) med γ^↓
+                ∈ dnt(Γ ⊢ a sans("ty")) med γ
             $
         ]
         #uncover("3-")[
             $
-            dnt(Γ ⊢ ⊥ sans("pr")) = {}
+            dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $
         ]
     ])
@@ -699,18 +744,10 @@
 ]
 
 #slide[
-    = Future Work
-    #line-by-line[
-        - *Automation and solver integration*
-        - Function extensionality
-        - Recursion
-        - Effects
-        - Higher order logic
-    ]
-    #only("6-", align(center + horizon)[
-        == Thank you for listening!
+    #align(center + horizon)[
+        = Thank you for listening!
         Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
-    ])
+    ]
 ]
 
 #bibliography("references.bib")
