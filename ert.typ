@@ -13,6 +13,8 @@
 
   Jad Ghalayini #h(1em)
   Neel Krishnaswami
+
+  University of Cambridge
   
   September 7
 
@@ -24,6 +26,11 @@
         #only("4-")[
             ```haskell
             -- the output length is the sum of the input lengths
+            ```
+        ]
+        #only("-6")[
+            ```haskell
+            append :: [a] -> [a] -> [a]
             ```
         ]
         #only("7-")[
@@ -64,48 +71,59 @@
 ]
 
 #slide[
+    #align(center + horizon)[
+        ```haskell
+        data Vec (A : Set) : ℕ → Set where
+            []  : Vec A 0
+            _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (s n)
+        ```
+    ]
+    #align(bottom + right, image("agda.svg", height: 30%))
+]
+
+#slide[
     ```haskell
     -- the output length is the sum of the input lengths
     ```
-    #only("1")[
-        `append : List A -> List A -> List A`
-    ]
-    #only("2-")[
+    #only("1-")[
         `append : (m n : ℕ) -> Vec A m -> Vec A n -> Vec A `
-        #only("-3")[`(m + n)`]
-        #only("4", text(red, `(n + m)`))
-        #only("5-", `(n + m)`)
+        #only("-4")[`(m + n)`]
+        #only("5", text(red, `(n + m)`))
+        #only("6-", `(n + m)`)
     ]
-    #only("-6")[
+    #only("2-6")[
         ```haskell
-        append [] ys = ys
-        ```
-        ```haskell
-        append (x ∷ xs) ys = x ∷ (append xs ys)
+        append 0 n [] ys = ys
         ```
     ]
-    #only("7-")[
+    #only("3-6")[
         ```haskell
-        append [] ys = subst (Vec _) (sym (+-identityʳ _)) ys
+        append (s m) n (x ∷ xs) ys = x ∷ (append xs ys)
+        ```
+    ]
+    #only("8-")[
+        ```haskell
+        append 0 n [] ys = subst (Vec _) (sym (+-identityʳ _)) ys
         ```
         ```haskell
-        append (x ∷ xs) ys = subst (λ t → t) 
+        append (s m) n (x ∷ xs) ys = subst (λ t → t) 
             (cong (Vec _) (sym (+-suc _ _))) 
             (x ∷ (append xs ys))
         ```
+        //TODO: fill in underscores
     ]
     #align(center + horizon)[
-        #only("3", text(blue, $sans("*All Done*")$))
-        #only("5", text(red, 
+        #only("4", text(blue, $sans("*All Done*")$))
+        #only("6", text(red, 
             ```
-            n != n + zero of type ℕ
-            when checking that the expression ys has type Vec A (n + zero)
+            n != n + 0 of type ℕ
+            when checking that the expression ys has type Vec A (n + 0)
             ```
         ))
-        #only("6",
+        #only("7",
             ```
-            zero + n = zero
-            succ m + n = succ (m + n)
+            0 + n = 0
+            s m + n = s (m + n)
             ```
         )
     ]
@@ -138,8 +156,9 @@
 ]
 
 #slide[
-    = Quantifiers
-    #one-by-one[$
+    #one-by-one[][
+        = Quantifiers
+    ][$
         ∀x, y. x ≤ y ==> f(x) ≤ f(y) "(Monotonicity)"
     $][$
         ∀x, y, z. R(x, y) ∧ R(y, z) ==> R(x, z) "(Transitivity)"
@@ -153,8 +172,6 @@
 #slide[
     = Reliability
     #align(center, box(align(left, one-by-one[][
-        #cite("fuzz", style: "chicago-author-title")
-    ][
     ][
         ```
         (assert (forall ((a Int))
@@ -168,6 +185,10 @@
     ][
         #text(olive, `sat`)
     ])))
+
+    #align(bottom)[
+        #cite("fuzz", style: "chicago-author-title")
+    ]
 ]
 
 #slide[
@@ -183,10 +204,7 @@
         column-gutter: 6em,
         row-gutter: 1em,
         [*Refinement Types*],
-        [
-            #only("-7", [*Dependent Types*])
-            #only("8-", [*#text(olive, [Explicit]) Refinement*])
-        ],
+        [*Dependent Types*],
         only("2-", pro[High automation]),
         only("3-", con[Low automation]),
         only("4-", con[Low expressivity]),
@@ -194,46 +212,38 @@
         only("6-", con[Big TCB]),
         only("7-", pro[Small TCB])
     ))
+
+    #only("8-", align(bottom, 
+        cite("ftrs", style: "chicago-author-title")))
 ]
 
-/*
-#focus-slide[
-    = ⚠ Disclaimer ⚠
+#slide[
+    LOGIC GOES HERE
 ]
-*/
 
 #let gst(x) = text(gray, x)
 
 #slide[
-    #only(1)[
-        ```haskell
-        -- the output length is the sum of the input lengths
-        append :: [a] -> [a] -> [a]
+    #only("1-")[
+        ```
+        append : ∀m n: ℕ -> Array A m -> Array A n -> Array A (m + n)
         ```
     ]
-    #only("2-")[
-        ```
-        append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A (m + n)
-        ```
-    ]
-    #only("3-5")[
-        `append `#gst(`0 n`)` [] ys = ys`
-    ]
-    #only("6-")[
+    #only("3-")[
         `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#text(gray,{
-            only("6", `, _: len ys = 0 + n`)
-            only("7", [`, `
+            only("3", `, _: len ys = 0 + n}`)
+            only("4", [`, `
 
-            `   trans[len ys =(q) n =(?) 0 + n]`]
+            `   trans[len ys =(q) n =(?) 0 + n]}`]
             )
-            only("8-", [`, `
+            only("5-", [`, `
             
-            `   trans[len ys =(q) n =(β) 0 + n]`]
+            `   trans[len ys =(q) n =(β) 0 + n]}`]
             )
         })
     ]
 
-    #only("9-")[
+    #only("6-")[
         `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
         `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
@@ -241,33 +251,21 @@
 
         `       `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
     ]
-    #only("1")[
-        ```haskell
-        append [] ys = ys
-        ```
-        ```haskell
-        append (x:xs) ys = x:(append xs ys)
-        ```
-    ]
     #align(bottom)[
-        #only("4-5")[
+        #only("2-")[
             #v(1em)
             ```haskell
-            data Vec (A : Set a) : ℕ → Set a where
-            []  : Vec A zero
-            _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (suc n)
-            ```
-        ]
-        #uncover("5")[
-            vs.
-        ]
-        #uncover("5-")[
-            ```haskell
-            Vec A n := { l : List A | len l = n }
+            Array A n := { l : List A | len l = n }
             ```
         ]
     ]
 ]
+
+//TODO: EXPLAIN GHOSTS HERE
+
+//Make stuff go poof
+
+//Reappear, and do stuff here
 
 #slide[
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
@@ -324,6 +322,12 @@
         ]
         ])
 ]
+
+//TODO: going to write a signature and implementation which superficially resembles our Agda program
+//TODO: I have a type that says ∀m n, it says what it says
+//TODO: At this point, want to then give def and can mention that the gray stuff will be explained soon
+
+//TODO: Vec be Array
 
 #slide[
     ```
@@ -421,6 +425,12 @@
     ]
 ]
 
+//TODO: reinforce by disappearing ghosts again
+
+//TODO: Make underscores ...
+
+//TODO: make lemmas gray
+
 #slide[
     ```
     mul-comm: ∀{m n: ℕ} -> m * n = n * m
@@ -460,7 +470,23 @@
 #let dnt(tm) = $[|tm|]$
 #let tstlc = $scripts(⊢)_λ$
 
-#polylux-slide(max-repetitions: 28)[
+#slide[
+    #align(center + horizon)[
+        $#uncover("2-", $|$)sans("Array") med A med n#uncover("2-", $|$) #uncover("3-", $quad = quad sans("List") med |A|$)$
+        #uncover("4-")[
+            $
+            sans("len") v < n
+            $
+        ]
+        #uncover("5-")[
+            $
+            ∀n ∈ ℕ, #uncover("6-", $∃m ∈ ℕ,$) #uncover("7-", $m sans("prime") ∧ m ≥ n$)
+            $
+        ]
+    ]
+]
+
+#polylux-slide(max-repetitions: 20)[
     #grid(
         row-gutter: 1em,
         column-gutter: 0.5em,
@@ -506,37 +532,39 @@
         ])
     ]
 
-    #only("24-")[
-        $Γ := quad dot 
-            #only("24-", $sep Γ, x: A$)
-            #only("25-", $sep Γ, p: φ$)
-            #only("26-", $sep Γ, ||x: A||$) 
-            quad quad
-            #only("24-26")[
-                #rect(inset: 0.5em)[
-                    #only("24", $|Γ, x: A| = |Γ|, x: |A|$)
-                    #only("25", $|Γ, p: φ| = |Γ|, p: bold(1)$)
-                    #only("26", $|Γ, ||x: A||| = |Γ|, x: bold(1)$)
-                ]
-            ]
-        $
-    ]
+    // #only("24-")[
+    //     $Γ := quad dot 
+    //         #only("24-", $sep Γ, x: A$)
+    //         #only("25-", $sep Γ, p: φ$)
+    //         #only("26-", $sep Γ, ||x: A||$) 
+    //         quad quad
+    //         #only("24-26")[
+    //             #rect(inset: 0.5em)[
+    //                 #only("24", $|Γ, x: A| = |Γ|, x: |A|$)
+    //                 #only("25", $|Γ, p: φ| = |Γ|, p: bold(1)$)
+    //                 #only("26", $|Γ, ||x: A||| = |Γ|, x: bold(1)$)
+    //             ]
+    //         ]
+    //     $
+    // ]
 
-    #align(center + horizon)[
-        #uncover("22-", $Γ ⊢ a: A$)
-        #uncover("23-", $quad ==> quad $)
-        #alternatives-match((
-            "21-22": $Δ tstlc t: X$,
-            "23-": $|Γ| tstlc |a|: |A|$
-        ))
+    // #align(center + horizon)[
+    //     #uncover("22-", $Γ ⊢ a: A$)
+    //     #uncover("23-", $quad ==> quad $)
+    //     #alternatives-match((
+    //         "21-22": $Δ tstlc t: X$,
+    //         "23-": $|Γ| tstlc |a|: |A|$
+    //     ))
 
-        #grid(columns: 2, 
-            column-gutter: 3em,
-            only("27-")[$Γ ⊢ A sans("ty")$],
-            only("28-")[$Γ ⊢ φ sans("pr")$]
-        )
-    ]
+    //     #grid(columns: 2, 
+    //         column-gutter: 3em,
+    //         only("27-")[$Γ ⊢ A sans("ty")$],
+    //         only("28-")[$Γ ⊢ φ sans("pr")$]
+    //     )
+    // ]
 ]
+
+//TODO: contexts and judgements
 
 #slide[
     $
@@ -545,21 +573,27 @@
     $)
     $
     $
-    dnt(bold(1)) = {*}, quad dnt(ℕ) = ℕ, quad dnt(X + Y) = dnt(X) ⊔ dnt(Y),
+    #uncover("2-", $dnt(bold(1)) = {()},$) 
+    quad #uncover("3-", $dnt(ℕ) = ℕ,$) 
+    quad #uncover("4-", $dnt(X + Y) = dnt(X) ⊔ dnt(Y),$)
     $
     $
-    dnt(X × Y) = dnt(X) × dnt(Y), quad dnt(X → Y) = dnt(X) → 
-    #only("3-", $sans("Error")$)#only("2", text(red, $sans("Error")$))dnt(Y)
+    #uncover("5-", $dnt(X × Y) = dnt(X) × dnt(Y),$) 
+    quad #uncover("6-", $dnt(X → Y) = dnt(X) → 
+        #alternatives(start: 7, repeat-last: true, 
+            $sans("Error")$,
+            text(red, $sans("Error")$)
+        )dnt(Y)$)
     $
-    #only("3-")[
+    #only("9-")[
         $
         #rect(inset: 0.5em, $
             dnt(Δ): sans("Set")
         $)
         $
         $
-        dnt(dot) = {*}, quad
-        dnt(#$Δ, x: A$) = dnt(Γ) × sans(M)A
+        dnt(dot) = {()}, quad
+        dnt(#$Δ, x: A$) = dnt(Γ) × sans("Error")A
         $
     ]
 ]
