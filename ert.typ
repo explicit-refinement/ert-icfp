@@ -741,12 +741,15 @@
     #align(center + horizon, [
         #uncover("2-")[
             $
-            ∀γ ∈ dnt(Γ sans("ok")),
-                #uncover("3-", $dnt(|Γ| tstlc |a|: |A|) med γ^↓
-                ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
+            Γ ⊢ a: A ==> & \
+            & #uncover("3-", $∀γ ∈ dnt(|Γ^↑|),$)
+                #uncover("4-", $dnt(Γ sans("ok")) γ ==>$) \
+            & #h(2em)    #uncover("5-", $dnt(|Γ| tstlc |a|: |A|) med γ^↓$)
+                #uncover("6-", $∈ dnt(Γ ⊢ A sans("ty")) med γ$)
             $
         ]
-        #uncover("4-")[
+        #v(2em)
+        #uncover("7-")[
             $
             dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $

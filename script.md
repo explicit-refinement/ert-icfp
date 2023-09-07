@@ -170,10 +170,12 @@
     - A context with a proposition variable is valid if that proposition holds
     - A context with a variable or a ghost variable is valid if...
 - We're now ready to state the major theorem of the paper: semantic regularity
-    - This just says, for all valid contexts γ
+    - This just says that
     - If $a$ is of type $A$ in $Γ$
-    - The denotation of the erasure of $a$ in γ (where the upgraded variables have been replaced with units, here indicated by the downward arrow)
-    - Lives in the denotation of $A$
+    - For all $γ$ in the denotation of the erasure of the upgrade of $Γ$
+    - If $γ$ is valid
+    - The denotation of the erasure of $a$ in $γ$ (where the upgraded variables have been replaced with units, here indicated by the downward arrow)
+    - Lives in the denotation of $A$ in $γ$
 - The cool part is, since the denotation of the false proposition is false, this automagically implies our logic is consistent
 - So, to recap, we [READ SLIDE]... in Lean!
 - Thanks for listening!
