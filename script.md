@@ -159,7 +159,6 @@
 - Intuitively, the denotation should be 0, 1, 2 if `n` is 3
 - And 0,1,2,3,4 if `n` is 5
 - So it has to depend on `n`. Back to our examples...
-    - The existential quantifier is the union, for all valid values of A, of valid values of B.
     - Subsets are simply all valid values of A satisfying the desired proposition, as you'd expect
 - Propositions, of course, are just propositions:
     - True is true and false is false

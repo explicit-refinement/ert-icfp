@@ -599,7 +599,7 @@
         $
         $
         dnt(dot) = {()}, quad
-        dnt(#$Δ, x: A$) = dnt(Δ) × sans("Error")A
+        dnt(#$Δ, x: X$) = dnt(Δ) × sans("Error")dnt(X)
         $
     ]
 ]
@@ -643,38 +643,41 @@
             \ & #h(3em)  f med #text(red, $()$) ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, sans("ret") x) 
             }
             $
-        ]    
-        #only("9-13")[
+        ] 
+        #only("9")[
             $
-            γ &∈ dnt(Γ^↑) \
-            #uncover("10-", $dot^↑ &= dot$) \
-            #uncover("11-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-            #uncover("12-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-            #uncover("13-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+            dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med γ
+            & = {f: bold(1) -> sans(M)dnt(|B|) 
+            \ & #h(2em) | ∀ a ∈ dnt(Γ ⊢ A sans("ty")) med γ,
+            \ & #h(3em)  f med () ∈ cal(E)dnt(#$Γ, x: A ⊢ B sans("ty")$)(γ, #text(red, $sans("ret") x$)) 
+            }
+            $
+        ]     
+        #only("10-14")[
+            $
+            γ &∈ dnt(|Γ^↑|) \
+            #uncover("11-", $dot^↑ &= dot$) \
+            #uncover("12-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+            #uncover("13-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+            #uncover("14-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
             $
         ]
-        #only("14-16")[
-            #uncover("14-")[
+        #only("15-17")[
+            #uncover("15-")[
                 $
                 dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
                 $
             ]
-            #uncover("15-")[
+            #uncover("16-")[
                 $
                 dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
                 $
             ]
-            #uncover("16-")[
+            #uncover("17-")[
                 $
                 dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
                 $
             ]
-        ]
-        #only("17")[
-            $
-            dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med γ &
-            = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med γ)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (γ, sans("ret") x)
-            $
         ]
         #only("18")[
             $
@@ -780,7 +783,7 @@
         - Everything is mechanized in ∼15,000 lines of Lean 4
     ]
     #align(center)[
-        #uncover("9-")[
+        #uncover("7-")[
             Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
         ]
     ]
