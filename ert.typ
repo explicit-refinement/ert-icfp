@@ -327,11 +327,9 @@
 //TODO: I have a type that says ∀m n, it says what it says
 //TODO: At this point, want to then give def and can mention that the gray stuff will be explained soon
 
-//TODO: Vec be Array
-
 #slide[
     ```
-    append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A (m + n)
+    append : ∀m n: ℕ -> Array A m -> Array A n -> Array A (m + n)
     ```
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
@@ -349,7 +347,7 @@
 ]
 
 #slide[
-    `append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A `#text(red, `(n + m)`)
+    `append : ∀m n: ℕ -> Array A m -> Array A n -> Array A `#text(red, `(n + m)`)
 
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
@@ -396,7 +394,7 @@
 ]
 
 #slide[
-    `append : ∀m n: ℕ -> Vec A m -> Vec A n -> Vec A (n + m)`
+    `append : ∀m n: ℕ -> Array A m -> Array A n -> Array A (n + m)`
 
     
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
