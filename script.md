@@ -1,13 +1,13 @@
 - Hello, I'm Jad Ghalayini from Cambridge, and I'm going to talk to you about explicit refinement types
 - Consider the following simple program, which appends the left list to the front of the right
 - Appending an empty list to the front is just the identity
-- Whereas, to append a list starting with x to the front, we first stick x at the front, and then recursively append the rest
+- Whereas, to append a list starting with x to the front, we recursively append the tail to the list and then stick x at the front
 - Now, this program has many properties; which ones we're interested in depends on our application
 - Here's a simple one that might be relevant: the length of the output is the sum of the input lengths
 - We could put that in a comment, but it might not be true; or if it is true now, it might rot
 - Typically, this is the type of thing you'd put into a property test
 - But what if we could statically _prove_ this was the case?
-- There are two standard techniques to do this:
+- There are two standard type-based techniques to do this:
     - Refinement types, here illustrated by Liquid Haskell
     - Dependent types, here illustrated by Agda
 - Let's start with Liquid Haskell
@@ -21,7 +21,7 @@
     - The lists of length 0 consist of the empty list
     - To make a list of length (n + 1), stick an element at the front of a list of length n
 - Alright, with that, we're ready to write out our Agda signature
-- We've got to add two _indices_, which we've highlighted here, which we can use to essentially tell the vectors what length they are
+- We've got to add two _indices_, which we've highlighted here, which we can use to indicate what length of vectors we want to pass in
 - As we can see, for each case, the definition is otherwise the same: we've just got to pass in the length at the front
 - Let's typecheck it... Yay!
 - Alright, let's try something a little different
@@ -31,7 +31,7 @@
 - Well, when typechecking, Agda is only allowed to use _definitional_ equality
 - Taking a look at the definition of equality, it's allowed to rewrite using these, and only these rules, and there's no way to use these rules to derive our desired fact
 - Alas! That means we have to use... casts...
-- Eww
+- Because the equality doesn't hold automatically, we have to insert a proof this equality holds into the text of the program
 - Alright, let's try it using refinement types
 - Much better
 - So... why would we ever _not_ use refinement types
@@ -39,8 +39,8 @@
     - Monotonicity
     - Transitivity
 - These properties make use of _quantifiers_, and so can't be reliably inferred by the SMT solvers which make refinement types go.
-- Even worse, let's say I simply need to multiply two integers. 
-- I can't, since integer arithmetic becomes undecidable pretty quickly!
+- Even worse, let's say I simply need to reason about the product of two integers. 
+- Unfortunately, this turns out to be very hard, and if I want to use quantifiers at the same time, Hilbert's tenth problem makes it _undecidable_
 - That's why many refinement type systems are restricted to only _quantifier free_, _linear_ integer arithmetic. So multiplying an integer by a constant is OK, but multiplying two integers is a no-go.
 - Furthermore, SMT solvers are extremely complicated pieces of software, with a lot of moving parts. Even worse, they are often implemented in C++.
 - As we know, that means they contain bugs, _especially_ in experimental support for more expressive logical constructs like quantifiers. For example, let's say we went up to our friendly neighborhood Z3 instance `n` years ago and asserted
@@ -53,7 +53,7 @@
     - Refinement types have high automation, dependent types have low automation
     - Refinement types can express only limited properties, dependent types can express essentially all of modern mathematics
     - Refinement types have a big TCB, dependent types, satisfying the de-Bruijn criteria, have a small TCB
-- This, however, is nothing more than an empirical statement. For example, Melliès and Zeilberger show that even very rich systems such as Hoare Logic can be viewed as refinement type systems
+- This, however, is nothing more than an empirical statement, and has nothing to do with semantics. For example, Melliès and Zeilberger show that even very rich systems such as Hoare Logic can be viewed as refinement type systems
 - Our goal is to build a refinement type system capable of reasoning about complicated properties which
     - Use quantifiers, like commutativity
     - Arithmetic, like the following bound
