@@ -218,7 +218,22 @@
 ]
 
 #slide[
-    LOGIC GOES HERE
+    #align(horizon + center)[
+        $
+        ∀x, y. R(x, y) <==> R(y, x)
+        $
+        #uncover("2-")[
+            $
+            x^2 + y^2 ≥ x y z 
+            $
+        ]
+        #uncover("3-")[
+            #grid(columns: 2,
+                image(width: 70%, "lean.svg"),
+                image(width: 40%, "isabelle.svg")
+            )
+        ]
+    ]
 ]
 
 #let gst(x) = text(gray.darken(30%), x)
@@ -279,62 +294,6 @@
 ]
 
 #slide[
-    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
-
-    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`, _: len xs = m} `)`ys`#gst(`, q}`)
-
-    #gst(`  in {`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
-]
-
-#slide[
-    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
-
-    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
-
-    #gst(`       s_inj (_: s (len xs) = s m)}`)
-    
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
-]
-
-#slide[
-    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
-
-    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
-
-    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
-
-
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
-]
-
-#slide[
-    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
-
-    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
-
-    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
-
-
-    `   in `#gst(`{`)`x:zs`#gst([
-        `, trans[(s m) + n ` 
-        
-        #only("2-", `                             =(β) s(m + n)`)
-        
-        #only("3-", `                             =(r) s(len zs)`)
-
-        #only("4-")[
-            `                             =(β) len (x:zs)`
-
-            `   ]}`
-        ]
-        ])
-]
-
-#slide[
     ```
     append : ∀m n: ℕ -> Array A m -> Array A n -> Array A (m + n)
     ```
@@ -345,10 +304,10 @@
 
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
-    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
+    `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
-    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
+    `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
+    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
 
     `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
 ]
@@ -364,11 +323,9 @@
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
+    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
 
-    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
-
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = m + (s n)}`)
+    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = n + (s m)}`)
 ]
 
 #slide[
@@ -412,21 +369,14 @@
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`,`)
+    #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
 
-    #gst(`       s_inj (trans[s (len xs) = (β) len (x:xs) =(p) s m])}`)
-
-    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = m + (s n)}`)
+    `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = n + (s m)}`)
 
     #gst(align(bottom)[
         ```
         zero-right-id : ∀n: ℕ -> n + 0 = n 
         ```
-        #uncover("2")[
-            ```
-            succ-right : ∀m n: ℕ -> m + (s n) = s (m + n)
-            ```
-        ]
     ])
 ]
 
