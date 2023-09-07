@@ -221,7 +221,7 @@
     LOGIC GOES HERE
 ]
 
-#let gst(x) = text(gray, x)
+#let gst(x) = text(gray.darken(30%), x)
 
 #slide[
     #only("1-")[
@@ -247,9 +247,9 @@
         `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
         `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-        #gst(`n m {`)`xs`#gst(`, _: len xs = n}`)` in `
+        #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
 
-        `       `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+        `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
     ]
     #align(bottom)[
         #only("2-")[
@@ -261,19 +261,30 @@
     ]
 ]
 
-//TODO: EXPLAIN GHOSTS HERE
+//TODO: going to write a signature and implementation which superficially resembles our Agda program
+//TODO: I have a type that says ∀m n, it says what it says
+//TODO: At this point, want to then give def and can mention that the gray stuff will be explained soon
 
-//Make stuff go poof
+#slide[
+    ```
+    |append| : 1 -> 1 -> List |A| -> List |A| -> List |A|
+    ```
+    ```
+    append () () [] ys = ys
 
-//Reappear, and do stuff here
+    append () () (x:xs) ys = 
+        let zs = append xs ys 
+        in x:zs
+    ```
+]
 
 #slide[
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
 
     `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
-    #gst(`n m {`)`xs`#gst(`, _: len xs = m}`)` in `
+    #gst(`n m {`)`xs`#gst(`, _: len xs = m} `)`ys`#gst(`, q}`)
 
-    #gst(`     {`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
+    #gst(`  in {`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
 ]
 
 #slide[
@@ -323,10 +334,6 @@
         ])
 ]
 
-//TODO: going to write a signature and implementation which superficially resembles our Agda program
-//TODO: I have a type that says ∀m n, it says what it says
-//TODO: At this point, want to then give def and can mention that the gray stuff will be explained soon
-
 #slide[
     ```
     append : ∀m n: ℕ -> Array A m -> Array A n -> Array A (m + n)
@@ -371,7 +378,7 @@
         #only("5-")[`   trans[len ys =(q) m =(zero-right-id m) m + 0`]]
     )
 
-    #align(bottom)[
+    #gst(align(bottom)[
         #uncover("2-")[
             #v(1em)
             ```
@@ -390,7 +397,7 @@
             ]
             ```
         ]
-    ]
+    ])
 ]
 
 #slide[
@@ -411,7 +418,7 @@
 
     `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = m + (s n)}`)
 
-    #align(bottom)[
+    #gst(align(bottom)[
         ```
         zero-right-id : ∀n: ℕ -> n + 0 = n 
         ```
@@ -420,7 +427,20 @@
             succ-right : ∀m n: ℕ -> m + (s n) = s (m + n)
             ```
         ]
-    ]
+    ])
+]
+
+#slide[
+    ```
+    |append| : 1 -> 1 -> List |A| -> List |A| -> List |A|
+    ```
+    ```
+    append () () [] ys = ys
+
+    append () () (x:xs) ys = 
+        let zs = append xs ys 
+        in x:zs
+    ```
 ]
 
 //TODO: reinforce by disappearing ghosts again
@@ -429,7 +449,7 @@
 
 //TODO: make lemmas gray
 
-#slide[
+#slide(gst[
     ```
     mul-comm: ∀{m n: ℕ} -> m * n = n * m
     ```
@@ -458,7 +478,7 @@
             ```
         ]
     ]
-]
+])
 
 #focus-slide[
     = Semantics
@@ -653,15 +673,11 @@
     ]
     #only("4-7")[
         $
-        γ ∈ dnt(Γ^↑)
-        $
-    ]
-    #only("5-7")[
-        $
-        dot^↑ &= dot \
-        #only("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-        #only("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-        #only("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+        γ &∈ dnt(Γ^↑) \
+        #uncover("5-", $dot^↑ &= dot$) \
+        #uncover("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+        #uncover("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+        #uncover("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
         $
     ]
     #only("8-10")[
@@ -672,12 +688,12 @@
         ]
         #uncover("9-10")[
             $
-            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med γ = {0, 1, 2}
+            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
             $
         ]
         #uncover("10")[
             $
-            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med γ = {0, 1, 2, 3, 4}
+            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
             $
         ]
     ]
@@ -740,29 +756,15 @@
             $
         ]    
     ]
-    #only("21")[
+    #only("21-")[
         $
         dnt(dot sans("ok")) med γ 
             &= ⊤ \
-        $
-    ]
-    #only("22")[
-        $
-        dnt(dot sans("ok")) med γ 
-            &= ⊤ \
-        dnt(#$Γ, p: φ sans("ok")$) med γ 
-            &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ \
-        $
-    ]
-    #only("23")[
-        $
-        dnt(dot sans("ok")) med γ 
-            &= ⊤ \
-        dnt(#$Γ, p: φ sans("ok")$) med γ 
-            &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ \
-        dnt(#$Γ, x: A$) med (γ, sans("ret") x)
+        #uncover("22-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
+            &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ$) \
+        #uncover("23-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
             &= dnt(#$Γ, ||x: A||$) med (γ, sans("ret") x) \
-            &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ
+            &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
         $
     ]
 ]
