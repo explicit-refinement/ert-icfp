@@ -126,25 +126,33 @@
 - We then provide existential and universal quantifiers, giving us a first order logic
 - Finally, we throw in propositional equality so we can say things which aren't simply tautologies
 
-... judgements
+- We can now go over the judgements of our language:
+- Our simply typed language, here indicated with a little λ next to the turnstile, just has the usual judgement `t` is in type `X` in context `Δ`
+- Similarly, our refined language has the judgement `a` is in type `A` in refined context `Γ`, where refined contexts consist of...
+    - Term variables, which erase to themselves
+    - Prop variables, which erase to units
+    - And of course, ghost variables, which erase to units like props
+- One of our main theorems is _erasure_: if a refined term typechecks as A, then it's erasure typechecks as the erasure of A in the appropriate erased context
+- We'll also need some auxiliary judgements, for:
+    - Valid proof
+    - Valid _types_, since this is a dependent type system
+    - As well as valid _props_, and of course, _contexts_, the latter just meaning the context is made of valid things
 
-... renotational pedantics
-
-... error stop
-
-... contexts are what you expect
-
-... simply-typed terms are as usual
-
-... refined types are subsets of the erased type's denotation; allowing us to interpret refined terms using the erasure
-
-... a note on ghosts, due to subsets
+- Finally, we can give our language it's semantics:
+    - The semantics of simply typed terms is mostly renotational pedantics
+    - Except we'll put functions into the error-stop monad. This allows us to stub out branches that we can prove are never taken.
+- Contexts are about what you'd expect: we define them to contain monadic terms only to allow reasoning about substitutions of effectful terms
+- The denotation of simply-typed terms is standard...
+- And allows us to give a denotation for refined terms by just taking the denotation of their erasure!
+- In particular, the definition of refined _types_ is just a subset of the denotation of the erased type, as follows
 
 ... some examples
 
 ... props are props, bro
 
 ... we've now got a very special prop: a context is valid
+
+... a note on ghosts, due to subsets
 
 ... big theorem: semantic regularity
 

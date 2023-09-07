@@ -514,6 +514,7 @@
     ]
 ]
 
+#slide[]
 
 #polylux-slide(max-repetitions: 11)[
     #align(center + horizon)[
@@ -604,7 +605,7 @@
 ]
 
 #polylux-slide(max-repetitions: 25)[
-    #only("-10")[
+    #only("-3")[
         $
             #rect(inset: 0.5em, $dnt(X): sans("Set")$) quad
             #rect(inset: 0.5em, $dnt(Δ): sans("Set")$)
@@ -623,46 +624,20 @@
     #only("3-")[
         $
         #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$)
-        #only("15-", $
+        #only("8-", $
             quad #rect(inset: 0.5em, 
                 $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
         $)
         $
     ]
-    #only("20-")[
+    #only("12-")[
         $
         #rect(inset: 0.5em, 
                 $dnt(Γ sans("ok")): dnt(|Γ^↑|) -> sans("Prop")$)
         $
     ]
-    #only("4-7")[
-        $
-        γ &∈ dnt(Γ^↑) \
-        #uncover("5-", $dot^↑ &= dot$) \
-        #uncover("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-        #uncover("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-        #uncover("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
-        $
-    ]
-    #only("8-10")[
-        #uncover("8-10")[
-            $
-            dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
-            $
-        ]
-        #uncover("9-10")[
-            $
-            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
-            $
-        ]
-        #uncover("10")[
-            $
-            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
-            $
-        ]
-    ]
     #align(center+horizon)[
-        #only("11")[
+        #only("4")[
             $
             dnt(#$Γ ⊢ (x: A) -> B sans("ty")$) med γ
             & = {f: dnt(|A|) -> sans(M)dnt(|B|) 
@@ -671,7 +646,7 @@
             }
             $
         ]
-        #only("12")[
+        #only("5")[
             $
             dnt(#$Γ ⊢ ∀x: A, B sans("ty")$) med γ
             & = {f: bold(1) -> sans(M)dnt(|B|) 
@@ -680,39 +655,39 @@
             }
             $
         ]
-        #only("13")[
+        #only("6")[
             $
             dnt(#$Γ ⊢ ∃x: A, B sans("ty")$) med γ &
             = ⋃_(x ∈ dnt(Γ ⊢ A sans("ty")) med γ)dnt(#$Γ, x: A ⊢ B sans("ty")$) med (γ, sans("ret") x)
             $
         ]
-        #only("14")[
+        #only("7")[
             $
             dnt(#$Γ ⊢ {x: A | φ} sans("ty")$) med γ &
             = {x ∈ dnt(Γ ⊢ A sans("ty")) med γ 
             \ & #h(2em) | dnt(#$Γ, x: A ⊢ φ: sans("pr")$) med (γ, sans("ret") x)}
             $
         ]    
-        #only("16")[
+        #only("8")[
             $
             dnt(Γ ⊢ ⊤ sans("pr")) med γ = ⊤ quad
             dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $
         ]
-        #only("17")[
+        #only("9")[
             $
             dnt(Γ ⊢ a scripts(=)_A b sans("pr")) γ
                 = [dnt(|Γ^↑ ⊢ a: A|) med γ = dnt(|Γ^↑ ⊢ b: A|) med γ]
             $
         ]
-        #only("18-19")[
+        #only("10-11")[
             $
             dnt(#$Γ ⊢ ∃x: A, φ sans("pr")$) γ
             & = ∃x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
             \ & #h(4em) dnt(#$Γ, x: A ⊢ φ sans("pr")$ (γ, sans("ret") x))
             $
         ]
-        #only("19")[
+        #only("11")[
             $
             dnt(#$Γ ⊢ ∀x: A, φ sans("pr")$) γ
             & = ∀x ∈ dnt(Γ ⊢ A sans("ty")) med γ, 
@@ -720,16 +695,48 @@
             $
         ]    
     ]
-    #only("21-")[
+    #only("12-")[
         $
         dnt(dot sans("ok")) med γ 
             &= ⊤ \
-        #uncover("22-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
+        #uncover("13-", $dnt(#$Γ, p: φ sans("ok")$) med γ 
             &= dnt(Γ sans("ok")) med γ ∩ dnt(Γ ⊢ φ: sans("pr")) med γ$) \
-        #uncover("23-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
+        #uncover("14-", $dnt(#$Γ, x: A$) med (γ, sans("ret") x)
             &= dnt(#$Γ, ||x: A||$) med (γ, sans("ret") x) \
             &= dnt(Γ sans("ok")) med γ ∧ x ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
         $
+    ]
+]
+
+#slide[
+    #align(center + horizon)[
+        $
+        #uncover("2-", $γ &∈ dnt(Γ^↑)$) \
+        #uncover("3-", $dot^↑ &= dot$) \
+        #uncover("4-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+        #uncover("5-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+        #uncover("6-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+        $
+    ]
+]
+
+#slide[
+    #align(center + horizon)[
+        #uncover("2-")[
+            $
+            dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
+            $
+        ]
+        #uncover("3-")[
+            $
+            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med () = {0, 1, 2}
+            $
+        ]
+        #uncover("4-")[
+            $
+            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med () = {0, 1, 2, 3, 4}
+            $
+        ]
     ]
 ]
 
@@ -740,11 +747,11 @@
         #uncover("2-")[
             $
             ∀γ ∈ dnt(Γ sans("ok")),
-                dnt(|Γ| tstlc |a|: |A|) med γ^↓
-                ∈ dnt(Γ ⊢ A sans("ty")) med γ
+                #uncover("3-", $dnt(|Γ| tstlc |a|: |A|) med γ^↓
+                ∈ dnt(Γ ⊢ A sans("ty")) med γ$)
             $
         ]
-        #uncover("3-")[
+        #uncover("4-")[
             $
             dnt(Γ ⊢ ⊥ sans("pr")) med γ = ⊥
             $
