@@ -71,12 +71,24 @@
 ]
 
 #slide[
-    #align(center + horizon)[
-        ```haskell
-        data Vec (A : Set) : ℕ → Set where
-            []  : Vec A 0
-            _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (s n)
-        ```
+    #only("2-")[
+        #align(center + horizon)[
+            #align(left)[
+                ```haskell
+                data Vec (A : Set) : ℕ → Set where
+                ```
+                #uncover("3-")[
+                    ```
+                        []  : Vec A 0
+                    ```
+                ]
+                #uncover("4-")[
+                    ```
+                        _∷_ : ∀ (x : A) (xs : Vec A n) → Vec A (s n)
+                    ```
+                ]
+            ]
+        ]
     ]
     #align(bottom + right, image("agda.svg", height: 30%))
 ]
@@ -85,12 +97,13 @@
     ```haskell
     -- the output length is the sum of the input lengths
     ```
-    #only("1-")[
-        `append : (m n : ℕ) -> Vec A m -> Vec A n -> Vec A `
-        #only("-4")[`(m + n)`]
-        #only("5", text(red, `(n + m)`))
-        #only("6-", `(n + m)`)
-    ]
+    `append : `
+    #only("1", text(red, `(m n : ℕ)`))
+    #only("2-", `(m n : ℕ)`)
+    ` -> Vec A m -> Vec A n -> Vec A `
+    #only("-4")[`(m + n)`]
+    #only("5", text(red, `(n + m)`))
+    #only("6-", `(n + m)`)
     #only("2-6")[
         ```haskell
         append 0 n [] ys = ys
@@ -324,7 +337,7 @@
 
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
-        `   ... : len ys = m + 0]`]
+        `   ... : len ys = n + 0]`]
     )
 
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
@@ -336,25 +349,26 @@
 ]
 
 #slide[
-    `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
+    `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst[`, `
         
-        #only("-4")[`   ... : len ys = m + 0]`]
-        #only("5-")[`   trans[len ys =(q) m =(zero-right-id m) m + 0`]]
-    )
+        #only("1")[`   ... : len ys = n + 0]`]
+        #only("2-5")[`   trans[len ys =(q) n =(?) n + 0`]
+        #only("6-")[`   trans[len ys =(q) n =(zero-right-id n) n + 0`]
+    ]
 
     #gst(align(bottom)[
-        #uncover("2-")[
+        #uncover("3-")[
             #v(1em)
             ```
             zero-right-id : ∀n: ℕ -> n + 0 = n 
             ```
         ]
-        #uncover("3-")[
+        #uncover("4-")[
             ```
             zero-right-id 0 = β
             ```
         ]
-        #uncover("4-")[
+        #uncover("5-")[
             ```
             zero-right-id (s n) = trans [
                 (s n) + 0 =(β) s (n + 0) =(zero-right-id n) (s n)
@@ -370,7 +384,7 @@
     
     `append `#gst(`0 n {`)`[]`#gst(`, p} {`)`ys`#gst(`, q}`)` = `#gst(`{`)`ys`#gst([`, `
         
-        `   trans[len ys =(q) m =(zero-right-id m) m + 0]`]
+        `   trans[len ys =(q) n =(zero-right-id n) n + 0]`]
     )
 
     `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
@@ -431,13 +445,11 @@
     ]
 ])
 
-#focus-slide[
-    = Semantics
-]
-
 #let sep = $med | med$
 #let dnt(tm) = $[|tm|]$
 #let tstlc = $scripts(⊢)_λ$
+
+#slide[]
 
 #slide[
     #align(center + horizon)[
@@ -449,7 +461,7 @@
         ]
         #uncover("5-")[
             $
-            ∀n ∈ ℕ, #uncover("6-", $∃m ∈ ℕ,$) #uncover("7-", $m sans("prime") ∧ m ≥ n$)
+            ∀n ∈ ℕ, #uncover("6-", $∃m ∈ ℕ,$) #uncover("7-", $m ≥ n ∧ m sans("prime")$)
             $
         ]
     ]
@@ -503,7 +515,7 @@
 ]
 
 
-#slide[
+#polylux-slide(max-repetitions: 11)[
     #align(center + horizon)[
         #uncover("2-", $Γ ⊢ a: A$)
         #uncover("7-", $quad ==> quad $)
@@ -511,16 +523,17 @@
             "1-6": $Δ tstlc t: X$,
             "7-": $|Γ| tstlc |a|: |A|$
         ))
-        // #uncover("4-")[
-        //     $
-        //     Γ ⊢ p: φ
-        //     $
-        // ]
-        // #grid(columns: 2, 
-        //     column-gutter: 3em,
-        //     uncover("5-")[$Γ ⊢ A sans("ty")$],
-        //     uncover("6-")[$Γ ⊢ φ sans("pr")$]
-        // )
+        #uncover("8-")[
+            $
+            Γ ⊢ p: φ
+            $
+        ]
+        #grid(columns: 3, 
+            column-gutter: 2em,
+            uncover("9-")[$Γ ⊢ A sans("ty")$],
+            uncover("10-")[$Γ ⊢ φ sans("pr")$],
+            uncover("11-")[$Γ sans("ok")$]
+        )
     ]
     #uncover("3-6")[
         #align(bottom)[
