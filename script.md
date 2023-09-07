@@ -151,11 +151,16 @@
         - For all valid inputs
         - The output is valid: here ℰ just shunts things into the error-stop monad
     - The universal quantifier is the same, except the argument is erased, as you'd expect
-
-... a note on ghosts, due to subsets
-    
+- The attentive reader might have noticed that while the argument to `f` is erased, it's still passed in as a parameter to the denotation of `A`
+- This is because γ doesn't lie in the denotation of the erased context, but rather in the denotation of the erased _upgraded_ context...
+- Which is just the context, but
+- With all ghosts promoted to values
+- For some intuition why this is necessary, consider the type of integers less than `n`, where `n` is some ghost variable
+- Intuitively, the denotation should be 0, 1, 2 if `n` is 3
+- And 0,1,2,3,4 if `n` is 5
+- So it has to depend on `n`. Back to our examples...
     - The existential quantifier is the union, for all valid values of A, of valid values of B.
-    - Subsets are simply all valid values of A satisfying the desired proposition
+    - Subsets are simply all valid values of A satisfying the desired proposition, as you'd expect
 - Propositions, of course, are just propositions:
     - True is true and false is false
     - Equality is equality of the erased semantics
@@ -164,11 +169,11 @@
     - The empty context is valid
     - A context with a proposition variable is valid if that proposition holds
     - A context with a variable or a ghost variable is valid if...
-
-... big theorem: semantic regularity
-
-... since false is false, implies consistency
-
-... we did stuff
-
-... it's Lean!
+- We're now ready to state the major theorem of the paper: semantic regularity
+    - This just says, for all valid contexts γ
+    - If $a$ is of type $A$ in $Γ$
+    - The denotation of the erasure of $a$ in γ (where the upgraded variables have been replaced with units, here indicated by the downward arrow)
+    - Lives in the denotation of $A$
+- The cool part is, since the denotation of the false proposition is false, this automagically implies our logic is consistent
+- So, to recap, we [READ SLIDE]... in Lean!
+- Thanks for listening!
