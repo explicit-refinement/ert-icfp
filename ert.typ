@@ -158,20 +158,20 @@
 #slide[
     #one-by-one[][
         = Quantifiers
-    ][$
+        $
         ∀x, y. x ≤ y ==> f(x) ≤ f(y) "(Monotonicity)"
     $][$
         ∀x, y, z. R(x, y) ∧ R(y, z) ==> R(x, z) "(Transitivity)"
     $][
         = Multiplication
-    ][$
+        $
         3x dot 5y = 2y dot 5x + 4x dot y + x dot y
     $]
 ]
 
 #slide[
     = Reliability
-    #align(center, box(align(left, one-by-one[][
+    #align(center, box(align(left, one-by-one[
     ][
         ```
         (assert (forall ((a Int))
@@ -260,10 +260,14 @@
 
     #only("6-")[
         `append `#gst(`(s m) n {`)`(x:xs)`#gst(`, p} {`)`ys`#gst(`, q}`)` = `
+    ]
 
+    #only("7-")[
         `   let `#gst(`{`)`zs`#gst(`, r}`)` = append `
         #gst(`n m {`)`xs`#gst(`, _: len xs = n} {`)`ys`#gst(`, q}`)
+    ]
 
+    #only("8-")[
         `   in `#gst(`{`)`x:zs`#gst(`, _: len(x:zs) = (s m) + n}`)
     ]
     #align(bottom)[
@@ -572,11 +576,11 @@
     #uncover("5-", $dnt(X × Y) = dnt(X) × dnt(Y),$) 
     quad #uncover("6-", $dnt(X → Y) = dnt(X) → 
         #alternatives(start: 7, repeat-last: true, 
+            text(red, $sans("Error")$),
             $sans("Error")$,
-            text(red, $sans("Error")$)
         )dnt(Y)$)
     $
-    #only("9-")[
+    #only("8-")[
         $
         #rect(inset: 0.5em, $
             dnt(Δ): sans("Set")
@@ -584,7 +588,7 @@
         $
         $
         dnt(dot) = {()}, quad
-        dnt(#$Δ, x: A$) = dnt(Γ) × sans("Error")A
+        dnt(#$Δ, x: A$) = dnt(Δ) × sans("Error")A
         $
     ]
 ]
@@ -593,13 +597,13 @@
     #only("-10")[
         $
             #rect(inset: 0.5em, $dnt(X): sans("Set")$) quad
-            #rect(inset: 0.5em, $dnt(Γ): sans("Set")$)
-            #only("3-", $
+            #rect(inset: 0.5em, $dnt(Δ): sans("Set")$)
+            #only("4-", $
                 quad #rect(inset: 0.5em, 
-                    $dnt(Δ tstlc t: X): dnt(Γ) -> sans("Error")dnt(X)$)
+                    $dnt(Δ tstlc t: X): dnt(Δ) -> sans("Error")dnt(X)$)
             $)
         $
-        #only("2")[
+        #only("2-3")[
             $
             #rect(inset: 0.5em, 
                 $dnt(Δ tstlc t: X): dnt(Δ) -> sans("Error")dnt(X)$) 
@@ -608,7 +612,7 @@
     ]
     #only("3-")[
         $
-        #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ sans("Error")dnt(|A|)$)
+        #rect(inset: 0.5em, $dnt(Γ ⊢ A sans("ty")) med γ ⊆ dnt(|A|)$)
         #only("15-", $
             quad #rect(inset: 0.5em, 
                 $dnt(Γ tstlc φ sans("pr")): dnt(|Γ^↑|) -> sans("Prop")$)
@@ -725,7 +729,7 @@
     #align(center + horizon, [
         #uncover("2-")[
             $
-            ∀G ∈ dnt(Γ sans("ok")),
+            ∀γ ∈ dnt(Γ sans("ok")),
                 dnt(|Γ| tstlc |a|: |A|) med γ^↓
                 ∈ dnt(Γ ⊢ a sans("ty")) med γ
             $
@@ -750,12 +754,10 @@
         - We give everything a denotational semantics, and prove it sound
         - Everything is mechanized in ∼15,000 lines of Lean 4
     ]
-]
-
-#slide[
-    #align(center + horizon)[
-        = Thank you for listening!
-        Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
+    #align(center)[
+        #uncover("9-")[
+            Contact: #text(olive, link("mailto:jeg74@cam.ac.uk"))
+        ]
     ]
 ]
 
