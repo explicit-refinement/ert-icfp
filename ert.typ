@@ -531,7 +531,47 @@
             #only(14, $|(p: φ) => A| = bold(1) -> |A|$)
         ])
     ]
+]
 
+
+#slide[
+    #align(center + horizon)[
+        #uncover("2-", $Γ ⊢ a: A$)
+        #uncover("7-", $quad ==> quad $)
+        #alternatives-match((
+            "1-6": $Δ tstlc t: X$,
+            "7-": $|Γ| tstlc |a|: |A|$
+        ))
+        // #uncover("4-")[
+        //     $
+        //     Γ ⊢ p: φ
+        //     $
+        // ]
+        // #grid(columns: 2, 
+        //     column-gutter: 3em,
+        //     uncover("5-")[$Γ ⊢ A sans("ty")$],
+        //     uncover("6-")[$Γ ⊢ φ sans("pr")$]
+        // )
+    ]
+    #uncover("3-6")[
+        #align(bottom)[
+            #uncover("3-")[
+                $Γ := quad dot 
+                #only("4-", $sep Γ, x: A$)
+                #only("5-", $sep Γ, p: φ$)
+                #only("6-", $sep Γ, ||x: A||$)$
+            ]
+            #uncover("4-6")[
+                #align(center, rect(inset: 0.5em)[
+                    #alternatives-match((
+                        "-4": $|Γ, x: A| = |Γ|, x: |A|$,
+                        "5": $|Γ, p: φ| = |Γ|, p: bold(1)$,
+                        "6-": $|Γ, ||x: A||| = |Γ|, x: bold(1)$
+                    ))
+                ])
+            ]
+        ]
+    ]
     // #only("24-")[
     //     $Γ := quad dot 
     //         #only("24-", $sep Γ, x: A$)
@@ -547,24 +587,7 @@
     //         ]
     //     $
     // ]
-
-    // #align(center + horizon)[
-    //     #uncover("22-", $Γ ⊢ a: A$)
-    //     #uncover("23-", $quad ==> quad $)
-    //     #alternatives-match((
-    //         "21-22": $Δ tstlc t: X$,
-    //         "23-": $|Γ| tstlc |a|: |A|$
-    //     ))
-
-    //     #grid(columns: 2, 
-    //         column-gutter: 3em,
-    //         only("27-")[$Γ ⊢ A sans("ty")$],
-    //         only("28-")[$Γ ⊢ φ sans("pr")$]
-    //     )
-    // ]
 ]
-
-//TODO: contexts and judgements
 
 #slide[
     $
@@ -635,30 +658,32 @@
         γ ∈ dnt(Γ^↑)
         $
     ]
-    #align(center + horizon)[
-        #only("5-7")[
+    #only("5-7")[
+        $
+        dot^↑ &= dot \
+        #only("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
+        #only("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
+        #only("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
+        $
+    ]
+    #only("8-10")[
+        #uncover("8-10")[
             $
-            dot^↑ &= dot \
-            #only("6-", $(Γ, x: A)^↑ &= Γ^↑, x: A$) \ 
-            #only("6-", $(Γ, p: φ)^↑ &= Γ^↑, p: φ$) \
-            #only("7-", $(Γ, ||x: A||)^↑ &= Γ^↑, x: A$) \
-            $
-        ]
-        #only("8-10")[
-            $
-            dnt({x: ℕ | x < n})
-            $
-        ]
-        #only("9-10")[
-            $
-            dnt({x: ℕ | x < 3}) med γ = {0, 1, 2}
+            dnt(||n: ℕ|| ⊢ {x: ℕ | x < n} sans("ty"))
             $
         ]
-        #only("10")[
+        #uncover("9-10")[
             $
-            dnt({x: ℕ | x < 5}) med γ = {0, 1, 2, 3, 4}
+            dnt(⊢ {x: ℕ | x < 3} sans("ty")) med γ = {0, 1, 2}
             $
         ]
+        #uncover("10")[
+            $
+            dnt(⊢ {x: ℕ | x < 5} sans("ty")) med γ = {0, 1, 2, 3, 4}
+            $
+        ]
+    ]
+    #align(center+horizon)[
         #only("11")[
             $
             dnt(#$Γ ⊢ (x: A) -> B sans("ty")$) med γ
