@@ -200,7 +200,7 @@
     ])))
 
     #align(bottom)[
-        #cite("fuzz", style: "chicago-author-title")
+        #cite(<fuzz>, style: "chicago-fullnotes")
     ]
 ]
 
@@ -227,7 +227,7 @@
     ))
 
     #only("8-", align(bottom, 
-        cite("ftrs", style: "chicago-author-title")))
+        cite(<ftrs>, style: "chicago-fullnotes")))
 ]
 
 #slide[
